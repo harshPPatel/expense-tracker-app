@@ -1,8 +1,11 @@
 require('dotenv').config();
+require('./db');
 
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+
+const middlewares = require('./middlewares');
 
 const app = express();
 
@@ -15,5 +18,11 @@ app.get('/api/v1/', (req, res) => {
     message: 'Hello World !😀',
   });
 });
+
+// Handling Not Found Case
+app.use(middlewares.notFound);
+
+// Error Handler for API
+app.use(middlewares.errorHandler);
 
 module.exports = app;
