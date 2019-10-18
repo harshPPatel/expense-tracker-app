@@ -6,18 +6,15 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const middlewares = require('./middlewares');
+const auth = require('./auth');
 
 const app = express();
 
 app.use(cors());
-app.use(morgan('dev'));
+app.use(morgan('combined'));
 app.use(express.json());
 
-app.get('/api/v1/', (req, res) => {
-  res.json({
-    message: 'Hello World !😀',
-  });
-});
+app.use('/auth', auth);
 
 // Handling Not Found Case
 app.use(middlewares.notFound);
