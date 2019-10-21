@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi');
 
 const userSchema = Joi.object({
   username: Joi.string()
-    .pattern(/(^[a-zA-Z0-9_]+$)/)
+    .pattern(/(^[a-zA-Z0-9_]+$)/, { name: 'usernameValidation' })
     .min(3)
     .max(15)
     .required(),
@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
 
   if (validationResult.error) {
     res.status(422);
-    throw new Error(validationResult.error);
+    next(new Error(validationResult.error));
   }
 
   next();

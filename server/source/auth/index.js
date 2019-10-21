@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   res.json({
-    message: 'Welcome to Authentication.',
+    message: 'Welcome to Authentication API endpoint.',
     warning: 'Unauthorized access is prohibited!',
   });
 });
