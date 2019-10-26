@@ -23,9 +23,19 @@ module.exports = async (req, res, next) => {
     return;
   }
 
-  // Returning the data
-  res.json({
-    username: req.username,
-    token: `Bearer ${await getToken(req.username)}`,
-  });
+  // Whitelisting the user
+  user.status = 0;
+
+  // Saving the user and sending the response
+  user.save()
+    .then(async () => (
+      // Returning the data
+      res.json({
+        username: user.username,
+        token: `Bearer ${await getToken(user.username)}`,
+      })
+    ))
+    .catch(() => {
+      next(new Error('Internal Server: Unable to login the user'));
+    });
 };
