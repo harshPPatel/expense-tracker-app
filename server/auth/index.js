@@ -1,4 +1,4 @@
-const express = require('express');
+const { Router } = require('express');
 
 const userValidation = require('../validators/user');
 const tokenValidation = require('../validators/token');
@@ -6,7 +6,7 @@ const signup = require('./signup');
 const login = require('./login');
 const logout = require('./logout');
 
-const router = express.Router();
+const router = Router();
 
 // Signup Route
 router.post('/signup', userValidation.singup, signup);

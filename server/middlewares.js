@@ -6,7 +6,7 @@
  */
 const notFoundHandler = (req, res, next) => {
   res.status(400);
-  next(new Error(`Requested URL '${req.originalUrl}' does not exists.`));
+  next(new Error(`Requested Route '${req.originalUrl}' does not exists.`));
 };
 
 /**

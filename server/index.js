@@ -6,6 +6,7 @@ const morgan = require('morgan');
 
 const middlewares = require('./middlewares');
 const auth = require('./auth');
+const user = require('./user');
 
 // Creating Express App
 const app = express();
@@ -23,6 +24,9 @@ app.get('/', (req, res) => {
 
 // Authenticatino Routes
 app.use('/api/v1/auth', auth);
+
+// Users Routes
+app.use('/api/v1/user', user);
 
 // Error Handlers middlewares
 app.use(middlewares.notFoundHandler); // 404
