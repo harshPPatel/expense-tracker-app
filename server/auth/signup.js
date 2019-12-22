@@ -19,12 +19,12 @@ const signup = (req, res, next) => {
       user.password = hashed;
 
       // Adding user to the database
-      const databaseUser = new User(user);
+      const dbUser = new User(user);
 
       // Saving user
-      databaseUser.save()
+      dbUser.save()
         .then((response) => {
-          // get token here!
+          // responsing with appropriate values
           res.status(200);
           res.json({
             user: response,

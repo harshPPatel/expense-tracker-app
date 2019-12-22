@@ -15,7 +15,7 @@ const userSchema = {
 };
 
 /**
- * Validates the input data for singup user
+ * Validates the input data for signup user
  * @param {*} req Request Object
  * @param {*} res Response Object
  * @param {*} next next function
@@ -28,13 +28,36 @@ const singup = async (req, res, next) => {
   }
 
   // Creating Joi object
-  const singupUserSchema = joi.object({
+  const signupUserSchema = joi.object({
     ...userSchema,
     repeat_password: joi.ref('password'),
   });
 
   // Validating the input
-  const validationResult = await singupUserSchema.validate(req.body);
+  const validationResult = await signupUserSchema.validate(req.body);
+
+  // Throwing error
+  if (validationResult.error) {
+    res.status(422);
+    next(new Error(validationResult.error));
+  }
+
+  // Continuing the app
+  next();
+};
+
+/**
+ * Validates the input data for login user
+ * @param {*} req Request Object
+ * @param {*} res Response Object
+ * @param {*} next next function
+ */
+const login = async (req, res, next) => {
+  // Creating Joi object
+  const loginUserSchema = joi.object(userSchema);
+
+  // Validating the input
+  const validationResult = await loginUserSchema.validate(req.body);
 
   // Throwing error
   if (validationResult.error) {
@@ -48,4 +71,5 @@ const singup = async (req, res, next) => {
 
 module.exports = {
   singup,
+  login,
 };
