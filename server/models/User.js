@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const quote = require('../utils/quote');
 
 /**
  * Creates mongoose Scema for User
  */
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   username: {
     type: String,
     minlength: 3,
@@ -48,4 +48,4 @@ const userSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = model('User', userSchema);
