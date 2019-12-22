@@ -3,11 +3,13 @@ const joi = require('@hapi/joi');
 // Common User Scema for Joi Validation
 const userSchema = {
   username: joi.string()
+    .trim()
     .pattern(/(^[a-zA-Z0-9_]+$)/, { name: 'usernameValidation' })
     .min(3)
     .max(15)
     .required(),
   password: joi.string()
+    .trim()
     .pattern(/(^[a-zA-Z0-9_@]+$)/, { name: 'passwordValidation' })
     .min(6)
     .max(30)
@@ -40,6 +42,7 @@ const singup = async (req, res, next) => {
   if (validationResult.error) {
     res.status(422);
     next(new Error(validationResult.error));
+    return;
   }
 
   // Continuing the app
@@ -63,6 +66,7 @@ const login = async (req, res, next) => {
   if (validationResult.error) {
     res.status(422);
     next(new Error(validationResult.error));
+    return;
   }
 
   // Continuing the app

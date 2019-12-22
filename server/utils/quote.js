@@ -1,3 +1,7 @@
+/**
+ * Returns the random quote from provided list
+ * @returns {String} Random quote from collection
+ */
 const getRandomQuote = () => {
   const quotes = [
     'Look everywhere you can to cut a little bit from your expenses. It will all add up to a meaningful sum.',
@@ -7,7 +11,7 @@ const getRandomQuote = () => {
     'Clearly, any issues about breaching of expenses rules should be properly investigated.',
   ];
 
-  return quotes[Math.round(Math.random() * quotes.length)];
+  return quotes[Math.floor(Math.random() * quotes.length)];
 };
 
 module.exports = {

@@ -5,6 +5,7 @@ const express = require('express');
 const morgan = require('morgan');
 
 const middlewares = require('./middlewares');
+const validateToken = require('./validators/token');
 const auth = require('./auth');
 const user = require('./user');
 
@@ -26,7 +27,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/auth', auth);
 
 // Users Routes
-app.use('/api/v1/user', user);
+app.use('/api/v1/user', validateToken, user);
 
 // Error Handlers middlewares
 app.use(middlewares.notFoundHandler); // 404
