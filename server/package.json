@@ -1,0 +1,32 @@
+{
+  "name": "expense-tracker-api-server",
+  "version": "1.0.0",
+  "description": "API Server for expense tracker app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshPPatel/expense-tracker-app.git"
+  },
+  "author": "Harsh Patel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harshPPatel/expense-tracker-app/issues"
+  },
+  "homepage": "https://github.com/harshPPatel/expense-tracker-app#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "monk": "^7.1.1",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "nodemon": "^2.0.2"
+  }
+}
