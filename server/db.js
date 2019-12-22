@@ -1,8 +1,23 @@
-const monk = require('monk');
+const db = require('mongoose');
 
-// Database Connection URI
-const URI = process.env.MONGO_URI
-  ? process.env.MONGO_URI
-  : 'localhost/expense-tracker-app';
+// Database connection URI
+const URI = process.env.MONGO_URI || 'mongodb://localhost/expense-tracker-app';
 
-export default monk(URI);
+// Creates the connection
+const getConnection = () => {
+  db.connect(URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+    .then(() => {
+      console.log('Database Connected');
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  return db;
+};
+
+module.exports = {
+  getConnection,
+};

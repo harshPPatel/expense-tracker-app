@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/harshPPatel/expense-tracker-app#readme",
   "dependencies": {
+    "@hapi/joi": "^16.1.8",
+    "bcrypt": "^3.0.7",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "monk": "^7.1.1",
+    "mongoose": "^5.8.2",
     "morgan": "^1.9.1"
   },
   "devDependencies": {
