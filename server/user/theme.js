@@ -51,7 +51,7 @@ router.put('/update', validateTheme, async (req, res, next) => {
       res.status(200);
       res.json({
         username: req.username,
-        message: 'Theme is updated successfully!',
+        message: 'Theme has updated successfully!',
         updatedTheme: user.theme,
       });
     })

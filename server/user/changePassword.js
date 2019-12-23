@@ -52,7 +52,7 @@ const changePassword = async (req, res, next) => {
           res.status(200);
           return res.json({
             username: req.username,
-            message: 'Your password is changed successfully!',
+            message: 'Your password has changed successfully!',
           });
         })
         .catch((err) => {

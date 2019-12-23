@@ -1,13 +1,12 @@
 const { Router } = require('express');
 
+const validateCurrency = require('../validators/currency');
 const User = require('../models/User');
-const validateQuote = require('../validators/quote');
-const { getRandomQuote } = require('../utils/quote');
 
 const router = Router();
 
 /**
- * Handles the get request of user's quote
+ * Handles the get request for currency of the user
  */
 router.get('/', async (req, res, next) => {
   // Finding the user in database
@@ -20,18 +19,18 @@ router.get('/', async (req, res, next) => {
     return;
   }
 
-  // Returning the quote to the user
+  // Returning the currency to the user
   res.status(200);
   res.json({
     username: user.username,
-    quote: user.quote,
+    currency: user.currency,
   });
 });
 
 /**
- * Handles the update(put) request of user's quote
+ * Handles the update request for currency of users
  */
-router.put('/update', validateQuote, async (req, res, next) => {
+router.put('/update', validateCurrency, async (req, res, next) => {
   // Finding the user in database
   const user = await User.findOne({ username: req.username }).exec();
 
@@ -42,8 +41,8 @@ router.put('/update', validateQuote, async (req, res, next) => {
     return;
   }
 
-  // Updating the quote
-  user.quote = req.body.isRandom ? getRandomQuote() : req.body.quote.toString();
+  // Updating the currency
+  user.currency = req.body.currency.toString();
 
   // Saving user in database
   user.save()
@@ -52,8 +51,8 @@ router.put('/update', validateQuote, async (req, res, next) => {
       res.status(200);
       res.json({
         username: req.username,
-        message: 'Quote has updated successfully!',
-        updatedQuote: user.quote,
+        message: 'Currency has updated successfully!',
+        updatedCurrency: user.currency,
       });
     })
     .catch((err) => {

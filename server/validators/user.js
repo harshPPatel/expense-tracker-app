@@ -4,13 +4,13 @@ const joi = require('@hapi/joi');
 const userSchema = {
   username: joi.string()
     .trim()
-    .pattern(/(^[a-zA-Z0-9_]+$)/, { name: 'usernameValidation' })
+    .pattern(/(^[a-zA-Z0-9_]+$)/, { name: 'Username' })
     .min(3)
     .max(15)
     .required(),
   password: joi.string()
     .trim()
-    .pattern(/(^[a-zA-Z0-9_@]+$)/, { name: 'passwordValidation' })
+    .pattern(/(^[a-zA-Z0-9_@]+$)/, { name: 'Password' })
     .min(6)
     .max(30)
     .required(),

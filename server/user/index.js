@@ -5,6 +5,7 @@ const deleteAccount = require('./deleteAccount');
 const quote = require('./quote');
 const changePassword = require('./changePassword');
 const theme = require('./theme');
+const currency = require('./currency');
 
 const router = Router();
 
@@ -19,5 +20,8 @@ router.use('/quote', quote);
 
 // Theme Routes
 router.use('/theme', theme);
+
+// Currency Routes
+router.use('/currency', currency);
 
 module.exports = router;
