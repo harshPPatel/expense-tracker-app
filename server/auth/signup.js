@@ -27,7 +27,7 @@ const signup = (req, res, next) => {
           // responsing with appropriate values
           res.status(200);
           res.json({
-            user: response,
+            username: response.username,
             message: 'User created Successfully!',
           });
         })

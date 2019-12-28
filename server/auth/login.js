@@ -35,9 +35,17 @@ const login = async (req, res, next) => {
     return;
   }
 
+  const settings = {
+    quote: dbUser.quote,
+    theme: dbUser.theme,
+    currency: dbUser.currency,
+    expenseWarningLimit: dbUser.expenseWarningLimit,
+  };
+
   const response = {
     username: dbUser.username,
     token: `Bearer ${await generateToken(user.username)}`,
+    settings,
   };
 
   // Responding with token if user has valid credentials
