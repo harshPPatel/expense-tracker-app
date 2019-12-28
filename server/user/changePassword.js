@@ -43,7 +43,7 @@ const changePassword = async (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
 
   // Saving the user
-  user.save()
+  user.updateOne()
     .then(() => {
       // Black listing the current token
       blacklistToken(token)

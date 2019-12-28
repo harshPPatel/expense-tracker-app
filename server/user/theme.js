@@ -45,7 +45,7 @@ router.put('/update', validateTheme, async (req, res, next) => {
   user.theme = Number(req.body.theme);
 
   // Saving user in database
-  user.save()
+  user.updateOne()
     .then(() => {
       // responsing back to the user
       res.status(200);

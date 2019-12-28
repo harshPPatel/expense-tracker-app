@@ -1,11 +1,11 @@
 const { Router } = require('express');
 
 const User = require('../models/User');
-const Expense = require('../models/Expense');
+const Income = require('../models/Income');
 const create = require('./create');
 const update = require('./update');
 const remove = require('./remove');
-const validateExpense = require('../validators/expenseIncome');
+const validateIncome = require('../validators/expenseIncome');
 
 const router = Router();
 
@@ -24,7 +24,7 @@ router.get('/', async (req, res, next) => {
   }
 
   // Finding all expenses of user
-  const expenses = await Expense
+  const incomes = await Income
     .find({
       username: req.username,
     })
@@ -33,19 +33,19 @@ router.get('/', async (req, res, next) => {
   // Sending the response to the user
   res.status(200);
   res.json({
-    expenses,
-    count: expenses.length,
+    incomes,
+    count: incomes.length,
     username: req.username,
   });
 });
 
 // Expense Create Route
-router.post('/create', validateExpense.create, create);
+router.post('/create', validateIncome.create, create);
 
 // Expense Update Route
-router.put('/update', validateExpense.update, update);
+router.put('/update', validateIncome.update, update);
 
 // Expense remove Route
-router.delete('/delete', validateExpense.remove, remove);
+router.delete('/delete', validateIncome.remove, remove);
 
 module.exports = router;

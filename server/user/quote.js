@@ -46,7 +46,7 @@ router.put('/update', validateQuote, async (req, res, next) => {
   user.quote = req.body.isRandom ? getRandomQuote() : req.body.quote.toString();
 
   // Saving user in database
-  user.save()
+  user.updateOne()
     .then(() => {
       // responsing back to the user
       res.status(200);

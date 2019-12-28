@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 const User = require('../models/User');
-const Expense = require('../models/Expense');
+const Income = require('../models/Income');
 
 /**
- * Handles update request for expense
+ * Handles update request for income
  * @param {*} req Request Object
  * @param {*} res Response Object
- * @param {*} next netx function
+ * @param {*} next next function
  */
 const update = async (req, res, next) => {
   // Finding user in the database
@@ -21,37 +21,39 @@ const update = async (req, res, next) => {
     return;
   }
 
-  // Finding expense in database
-  const expense = await Expense.findOne({
+  // Finding income in database
+  const income = await Income.findOne({
     _id: req.body._id.toString(),
   }).exec();
 
-  // Throwing error if expense not found
-  if (!expense) {
+  // Throwing error if income not found
+  if (!income) {
     res.status(404);
-    next(new Error('Expense not found'));
+    next(new Error('Income not found'));
     return;
   }
 
-  // Throwing error if expense does not belongs to logged in user
-  if (expense.username !== req.username) {
+  // Throwing error if income does not belongs to logged in user
+  if (income.username !== req.username) {
     res.status(401);
     next(new Error('Unauthorized Access'));
     return;
   }
 
-  // updating the expense entry
-  expense.title = req.body.title.toString();
-  expense.amount = Number(req.body.amount.toString());
-  expense.date = new Date(req.body.date);
+  // updating the income entry
+  income.title = req.body.title.toString();
+  income.amount = Number(req.body.amount.toString());
+  income.date = new Date(req.body.date);
 
-  // Saving expense to the database
-  expense.updateOne()
+  // delete income.updated
+
+  // Saving income to the database
+  income.updateOne()
     .then(() => {
       res.status(200);
       res.json({
-        message: 'Expense updated successfully',
-        updatedExpense: expense,
+        message: 'Income updated successfully',
+        updatedIncome: income,
         username: req.username,
       });
     })

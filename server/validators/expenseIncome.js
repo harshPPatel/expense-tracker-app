@@ -2,12 +2,13 @@ const joi = require('@hapi/joi');
 joi.objectId = require('joi-objectid')(joi);
 
 // Common Expense Schema for validation
-const expenseSchema = {
+const expenseIncomeSchema = {
   title: joi.string()
     .trim()
     .min(3)
     .required(),
   amount: joi.number()
+    .precision(2)
     .min(0)
     .required(),
   date: joi.date()
@@ -15,17 +16,17 @@ const expenseSchema = {
 };
 
 /**
- * Validates expense object from request object for create request
+ * Validates expense OR income object from request object for create request
  * @param {*} req Request Object
  * @param {*} res Response Object
  * @param {*} next next function
  */
 const create = async (req, res, next) => {
   // Schema for expense
-  const createExpenseSchema = joi.object(expenseSchema);
+  const createExpenseIncomeSchema = joi.object(expenseIncomeSchema);
 
   // validating request body for expense
-  const validationResult = await createExpenseSchema.validate(req.body);
+  const validationResult = await createExpenseIncomeSchema.validate(req.body);
 
   // Throwing error if expense is invalid
   if (validationResult.error) {
@@ -39,21 +40,21 @@ const create = async (req, res, next) => {
 };
 
 /**
- * Validates expense object from request object for update request
+ * Validates expense OR income object from request object for update request
  * @param {*} req Request Object
  * @param {*} res Response Object
  * @param {*} next next function
  */
 const update = async (req, res, next) => {
   // Schema for expense
-  const updateExpenseSchema = joi.object({
-    ...expenseSchema,
+  const updateExpenseIncomeSchema = joi.object({
+    ...expenseIncomeSchema,
     _id: joi.objectId()
       .required(),
   });
 
   // validating request body for expense
-  const validationResult = await updateExpenseSchema.validate(req.body);
+  const validationResult = await updateExpenseIncomeSchema.validate(req.body);
 
   // Throwing error if expense is invalid
   if (validationResult.error) {
@@ -74,13 +75,13 @@ const update = async (req, res, next) => {
  */
 const remove = async (req, res, next) => {
   // Schema for expense
-  const removeExpenseSchema = joi.object({
+  const removeExpenseIncomeSchema = joi.object({
     _id: joi.objectId()
       .required(),
   });
 
   // validating request body for expense
-  const validationResult = await removeExpenseSchema.validate(req.body);
+  const validationResult = await removeExpenseIncomeSchema.validate(req.body);
 
   // Throwing error if expense is invalid
   if (validationResult.error) {

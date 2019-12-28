@@ -19,7 +19,7 @@ const defaultSettings = async (req, res, next) => {
   user.expenseWarningLimit = 1000;
 
   // Saving user in database
-  user.save()
+  user.updateOne()
     .then(() => {
       // responsing back to the user
       res.status(200);

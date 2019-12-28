@@ -45,7 +45,7 @@ router.put('/update', validateCurrency, async (req, res, next) => {
   user.currency = req.body.currency.toString();
 
   // Saving user in database
-  user.save()
+  user.updateOne()
     .then(() => {
       // responsing back to the user
       res.status(200);

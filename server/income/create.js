@@ -1,11 +1,11 @@
 const User = require('../models/User');
-const Expense = require('../models/Expense');
+const Income = require('../models/Income');
 
 /**
- * Handles create request for expense
+ * Handles create request for income
  * @param {*} req Request Object
  * @param {*} res Response Object
- * @param {*} next netx function
+ * @param {*} next next function
  */
 const create = (req, res, next) => {
   // Finding user in the database
@@ -20,21 +20,21 @@ const create = (req, res, next) => {
     return;
   }
 
-  // creating the expense entry
-  const expense = new Expense({
+  // creating the income entry
+  const income = new Income({
     title: req.body.title.toString(),
     amount: Number(req.body.amount.toString()),
     date: new Date(req.body.date),
     username: req.username,
   });
 
-  // Saving expense to the database
-  expense.save()
+  // Saving income to the database
+  income.save()
     .then((response) => {
       res.status(200);
       res.json({
-        message: 'Expense created successfully',
-        expense: response,
+        message: 'Income created successfully',
+        income: response,
         username: req.username,
       });
     })

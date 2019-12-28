@@ -9,6 +9,7 @@ const validateToken = require('./validators/token');
 const auth = require('./auth');
 const user = require('./user');
 const expense = require('./expense');
+const income = require('./income');
 
 // Creating Express App
 const app = express();
@@ -32,6 +33,9 @@ app.use('/api/v1/user', validateToken, user);
 
 // Expense Routes
 app.use('/api/v1/expense', validateToken, expense);
+
+// Income Routes
+app.use('/api/v1/income', validateToken, income);
 
 // Error Handlers middlewares
 app.use(middlewares.notFoundHandler); // 404
