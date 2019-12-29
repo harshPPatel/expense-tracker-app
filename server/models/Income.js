@@ -23,7 +23,6 @@ const incomeSchema = new Schema({
     type: String,
     minlength: 3,
     maxlength: 15,
-    unique: true,
     trim: true,
     required: true,
     match: /(^[a-zA-Z0-9_]+$)/,

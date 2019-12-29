@@ -12,7 +12,7 @@ const router = Router();
 // index route
 router.get('/', async (req, res, next) => {
   // Finding user in the database
-  const user = User.findOne({
+  const user = await User.findOne({
     username: req.username,
   }).exec();
 
