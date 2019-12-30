@@ -16,6 +16,12 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/about">About</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/login">Login</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/signup">Sign Up</router-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -31,5 +37,6 @@ export default {
 <style lang="scss" scoped>
 .nav-link.router-link-exact-active {
   color: #ffffff;
+  font-weight: bold;
 }
 </style>

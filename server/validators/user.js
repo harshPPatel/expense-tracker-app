@@ -22,17 +22,17 @@ const userSchema = {
  * @param {*} res Response Object
  * @param {*} next next function
  */
-const singup = async (req, res, next) => {
+const signup = async (req, res, next) => {
   // Throwing error if repeat_password property does not exists
-  if (!req.body.repeat_password) {
+  if (!req.body.confirmPassword) {
     res.status(422);
-    next(new Error('repeat_password field is required for the signup.'));
+    next(new Error('Confirm Password is required for the signup.'));
   }
 
   // Creating Joi object
   const signupUserSchema = joi.object({
     ...userSchema,
-    repeat_password: joi.ref('password'),
+    confirmPassword: joi.ref('password'),
   });
 
   // Validating the input
@@ -74,6 +74,6 @@ const login = async (req, res, next) => {
 };
 
 module.exports = {
-  singup,
+  signup,
   login,
 };

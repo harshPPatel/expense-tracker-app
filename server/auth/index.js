@@ -9,7 +9,7 @@ const logout = require('./logout');
 const router = Router();
 
 // Signup Route
-router.post('/signup', userValidation.singup, signup);
+router.post('/signup', userValidation.signup, signup);
 
 // Login Route
 router.post('/login', userValidation.login, login);

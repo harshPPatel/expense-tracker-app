@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <nav-bar />
-    </div>
+    <nav-bar />
     <router-view/>
   </div>
 </template>
@@ -16,19 +14,3 @@ export default {
   components: { NavBar },
 };
 </script>
-
-<style lang="scss">
-
-// #nav {
-//   padding: 30px;
-
-//   a {
-//     font-weight: bold;
-//     color: #2c3e50;
-
-//     &.router-link-exact-active {
-//       color: #42b983;
-//     }
-//   }
-// }
-</style>

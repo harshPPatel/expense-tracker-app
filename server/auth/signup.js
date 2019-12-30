@@ -28,14 +28,15 @@ const signup = (req, res, next) => {
           res.status(200);
           res.json({
             username: response.username,
-            message: 'User created Successfully!',
+            message: 'Account created Successfully!',
           });
         })
         .catch((err) => {
           // Checking if the username already exists in the database
           if (err.code === 11000) {
             res.status(409);
-            next(new Error('Username already exists in the database'));
+            next(new Error('Username already exists.'));
+            return;
           }
 
           next(new Error(err.message));
