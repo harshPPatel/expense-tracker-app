@@ -2,12 +2,12 @@
   <div class="form-group">
     <label for="password">Password</label>
     <input
-      v-model="UI.user.password"
       @input="validatePassword"
       type="password"
       class="form-control"
       id="password"
       placeholder="Password"
+      :value="UI.user.password"
       :class="{
         'is-invalid': error,
         'is-valid': (UI.user.password && !error)

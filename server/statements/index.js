@@ -45,6 +45,8 @@ router.get('/', async (req, res, next) => {
   res.json({
     statements,
     count: statements.length,
+    totalExpenses: Statement.getTotalAmount(statement.expenses),
+    totalIncomes: Statement.getTotalAmount(statement.incomes),
     username: req.username,
   });
 });

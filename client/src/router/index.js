@@ -1,8 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
+import Auth from '../API/Auth';
+import store from '../store';
 import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
+
+if (localStorage.token) {
+  store.commit('User/setToken', localStorage.token);
+}
 
 const routes = [
   {
@@ -19,11 +26,49 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: () => import('../views/SignUp.vue'),
+    beforeEnter: async (to, from, next) => {
+      if (localStorage.token) {
+        await Auth.validateToken()
+          .then(() => next('/dashboard'))
+          .catch(() => next());
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/login',
     name: 'login',
     component: () => import('../views/Login.vue'),
+    beforeEnter: async (to, from, next) => {
+      if (localStorage.token) {
+        await Auth.validateToken()
+          .then(() => next('/dashboard'))
+          .catch(() => next());
+      } else {
+        next();
+      }
+    },
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import('../views/Dashboard.vue'),
+    beforeEnter: (to, from, next) => {
+      if (store.state.User.isLoggedIn) {
+        next();
+      } else {
+        next({
+          name: 'login',
+          params: {
+            error: {
+              errorCode: '401',
+              message: 'Please Login to get access',
+            },
+          },
+        });
+      }
+    },
   },
 ];
 

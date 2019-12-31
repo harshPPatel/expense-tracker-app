@@ -2,12 +2,12 @@
   <div class="form-group">
     <label for="confirmPassword">Confirm Password</label>
     <input
-      v-model="UI.user.confirmPassword"
       @input="validateConfirmPassword"
       type="password"
       class="form-control"
       id="confirmPassword"
       placeholder="Confirm your Password"
+      :value="UI.user.confirmPassword"
       :class="{
         'is-invalid': error,
         'is-valid': (UI.user.confirmPassword && !error)

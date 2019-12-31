@@ -51,7 +51,12 @@ export default {
   }),
   computed: mapState(['UI']),
   mounted() {
-    this.successMessage = this.$route.params.message;
+    if (this.$route.params.message) {
+      this.successMessage = this.$route.params.message;
+    }
+    if (this.$route.params.error) {
+      this.serverError = this.$route.params.error;
+    }
   },
   methods: {
     ...mapActions({

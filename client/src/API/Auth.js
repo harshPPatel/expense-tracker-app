@@ -60,6 +60,35 @@ const login = async (user) => {
 };
 
 /**
+ * Makes token validation call to the API server
+ * @param {*} user User object
+ * @returns {Promise} Returns promise
+ */
+const validateToken = async (token) => {
+  let promise;
+  const url = `${config.API_URL}/auth/token`;
+  await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token || store.state.User.token,
+    },
+  })
+    .then(res => res.json())
+    .then((data) => {
+      promise = new Promise((resolve, reject) => {
+        // rejecting promise if response has errorCode
+        if (data.errorCode) {
+          reject(data);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  return promise;
+};
+
+/**
  * Makes logout call to the API server
  * @param {*} user User object
  * @returns {Promise} Returns promise
@@ -67,7 +96,6 @@ const login = async (user) => {
 const logout = async () => {
   let promise;
   const url = `${config.API_URL}/auth/logout`;
-  console.log(store);
   await fetch(url, {
     method: 'POST',
     headers: {
@@ -93,4 +121,5 @@ export default {
   signup,
   login,
   logout,
+  validateToken,
 };

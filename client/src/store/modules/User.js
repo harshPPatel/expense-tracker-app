@@ -16,6 +16,7 @@ const mutations = {
     storeState.username = value;
   },
   setToken(storeState, value) {
+    localStorage.token = value;
     storeState.token = value;
   },
   setUserLoggedIn(storeState) {
