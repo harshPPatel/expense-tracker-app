@@ -16,11 +16,35 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/about">About</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!User.isLoggedIn">
             <router-link class="nav-link" to="/login">Login</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!User.isLoggedIn">
             <router-link class="nav-link" to="/signup">Sign Up</router-link>
+          </li>
+          <li class="nav-item dropdown" v-if="User.isLoggedIn">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarUserDropdown"
+              role="button"
+              data-toggle="dropdown">
+              {{ User.username }}
+            </a>
+            <div class="dropdown-menu">
+              <router-link
+                to="/user/settings"
+                class="dropdown-item">
+                Settings
+              </router-link>
+              <div class="dropdown-divider"></div>
+              <a
+                class="dropdown-item"
+                href="#"
+                @click.prevent="logoutUser">
+                Logout
+              </a>
+            </div>
           </li>
         </ul>
       </div>
@@ -29,8 +53,30 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
+import Auth from '../../API/Auth';
+
 export default {
   name: 'NavBar',
+  computed: mapState(['User']),
+  methods: {
+    ...mapActions({
+      logout: 'User/logoutUser',
+    }),
+    logoutUser() {
+      Auth.logout()
+        .then(() => {
+          this.logout();
+          this.$router.push({
+            name: 'login',
+            params: {
+              message: 'You are logged out successfully',
+            },
+          });
+        });
+    },
+  },
 };
 </script>
 

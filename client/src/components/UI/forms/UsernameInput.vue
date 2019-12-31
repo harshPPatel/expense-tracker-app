@@ -35,7 +35,7 @@ export default {
       const usernameRegex = /(^[a-zA-Z0-9_]+$)/;
 
       // Validating the username
-      if (username === '') {
+      if (!username) {
         this.error = 'Username is required';
       } else if (!username.match(usernameRegex)) {
         this.error = 'Username can contain only following characters: A to Z, a to z, 0 to 9 or _.';

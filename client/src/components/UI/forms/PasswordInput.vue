@@ -35,7 +35,7 @@ export default {
       const passwordRegex = /(^[a-zA-Z0-9_]+$)/;
 
       // Validating the password
-      if (password === '') {
+      if (!password) {
         this.error = 'Password is required';
       } else if (!password.match(passwordRegex)) {
         this.error = 'Password can contain only following characters: A to Z, a to z, 0 to 9, @ or _.';

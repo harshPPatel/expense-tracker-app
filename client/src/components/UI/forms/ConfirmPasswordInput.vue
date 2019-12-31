@@ -33,7 +33,7 @@ export default {
       const confirmPassword = e.target.value.trim();
 
       // Validating the confirmPassword
-      if (confirmPassword === '') {
+      if (!confirmPassword) {
         this.error = 'Confirm Password is required';
       } else if (confirmPassword !== this.UI.user.password) {
         this.error = 'Confirm Password and Password does not match.';
