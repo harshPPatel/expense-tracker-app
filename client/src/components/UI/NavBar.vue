@@ -33,6 +33,11 @@
             </a>
             <div class="dropdown-menu">
               <router-link
+                to="/dashboard"
+                class="dropdown-item">
+                Dashboard
+              </router-link>
+              <router-link
                 to="/user/settings"
                 class="dropdown-item">
                 Settings

@@ -50,12 +50,17 @@ const mapAndSort = (expenses, incomes) => {
 };
 
 /**
- * Gets total of provided expenses or incomes
- * @param {*} expenses Expenses or Incomes array returned from Database
+ * Gets total of provided expenses or Incomes
+ * @param {Array} array Expenses or Incomes array returned from Database
+ * @returns {Number} Total Amount
  */
-const getTotalAmount = (array) => (
-  array.reduce((a, b) => a.amount + b.amount, 0)
-);
+const getTotalAmount = (array) => {
+  let total = 0;
+  array.forEach((element) => {
+    total += element.amount;
+  });
+  return total;
+};
 
 module.exports = {
   mapAndSort,
