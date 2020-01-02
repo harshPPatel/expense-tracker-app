@@ -31,3 +31,8 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+// vue-datetime component's styles
+@import '../node_modules/vue-datetime/dist/vue-datetime.css';
+</style>

@@ -11,6 +11,16 @@ if (localStorage.token) {
   store.commit('User/setToken', localStorage.token);
 }
 
+const loginRoutePushOptions = {
+  name: 'login',
+  params: {
+    error: {
+      errorCode: '401',
+      message: 'Please Login to get access',
+    },
+  },
+};
+
 const routes = [
   {
     path: '/',
@@ -58,15 +68,19 @@ const routes = [
       if (store.state.User.isLoggedIn) {
         next();
       } else {
-        next({
-          name: 'login',
-          params: {
-            error: {
-              errorCode: '401',
-              message: 'Please Login to get access',
-            },
-          },
-        });
+        next(loginRoutePushOptions);
+      }
+    },
+  },
+  {
+    path: '/expenses',
+    name: 'expenses',
+    component: () => import('../views/Expenses.vue'),
+    beforeEnter: (to, from, next) => {
+      if (store.state.User.isLoggedIn) {
+        next();
+      } else {
+        next(loginRoutePushOptions);
       }
     },
   },

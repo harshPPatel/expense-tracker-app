@@ -30,11 +30,7 @@ const getters = {
 };
 
 const actions = {
-  // loginUser({ commit }, value) {
-  //   commit('setUsername', value.username);
-  //   commit('setToken', value.token);
-  //   commit('setUserLoggedIn');
-  // },
+
 };
 
 export default {

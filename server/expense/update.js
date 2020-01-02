@@ -46,7 +46,7 @@ const update = async (req, res, next) => {
   expense.date = new Date(req.body.date);
 
   // Saving expense to the database
-  expense.updateOne()
+  expense.save()
     .then(() => {
       res.status(200);
       res.json({
