@@ -12,9 +12,13 @@
         </li>
       </ol>
     </nav>
+    <!-- User Quote Form -->
     <user-quote-form />
+    <!-- User Theme Form -->
     <user-theme-form />
+    <!-- User Currency Form -->
     <user-currency-form />
+    <!-- User Expense Warning Form -->
     <user-expense-warning-form />
     <div class="row">
       <div class="col-md-3"></div>
@@ -22,6 +26,7 @@
         <hr>
         <h4 class="text-success">Security</h4>
         <hr>
+        <!-- User Password Change Form -->
         <user-change-password-form />
       </div>
       <div class="col-md-3"></div>
@@ -82,6 +87,7 @@ export default {
   },
   methods: {
     deleteAccount() {
+      // Deleting user account and pushing to login page
       User.deleteAccount()
         .then((res) => {
           this.$store.dispatch('User/logoutUser');
@@ -94,6 +100,7 @@ export default {
         });
     },
     setDefaultSettings() {
+      // setting user's settings to default in database and store
       User.setDefaultSettings()
         .then((res) => {
           this.$store.commit('User/setTheme', res.defaultSettings.theme);
