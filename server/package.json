@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "now": "now -n expense-tracker-app-api -e NODE_ENV=production HASH_SALT_ROUNDS=@hash-salt-rounds AUTH_SECRET_KEY=@auth-secret-key"
   },
   "repository": {
     "type": "git",
