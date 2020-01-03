@@ -108,6 +108,18 @@ const routes = [
       }
     },
   },
+  {
+    path: '/user/settings',
+    name: 'userSettings',
+    component: () => import('../views/UserSettings.vue'),
+    beforeEnter: (to, from, next) => {
+      if (store.state.User.isLoggedIn) {
+        next();
+      } else {
+        next(loginRoutePushOptions);
+      }
+    },
+  },
 ];
 
 const router = new VueRouter({

@@ -6,6 +6,7 @@ const quote = require('./quote');
 const changePassword = require('./changePassword');
 const theme = require('./theme');
 const currency = require('./currency');
+const expenseWarningLimit = require('./expenseWarningLimit');
 const defaultSettings = require('./defaultSettings');
 
 const router = Router();
@@ -24,6 +25,9 @@ router.use('/theme', theme);
 
 // Currency Routes
 router.use('/currency', currency);
+
+// Currency Routes
+router.use('/expenseWarningLimit', expenseWarningLimit);
 
 // Default settings route
 router.put('/default', defaultSettings);

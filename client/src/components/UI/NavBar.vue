@@ -38,11 +38,26 @@
                 Dashboard
               </router-link>
               <router-link
+                to="/expenses"
+                class="dropdown-item">
+                Expenses
+              </router-link>
+              <router-link
+                to="/incomes"
+                class="dropdown-item">
+                Incomes
+              </router-link>
+              <router-link
+                to="/statements"
+                class="dropdown-item">
+                Statements
+              </router-link>
+              <div class="dropdown-divider"></div>
+              <router-link
                 to="/user/settings"
                 class="dropdown-item">
                 Settings
               </router-link>
-              <div class="dropdown-divider"></div>
               <a
                 class="dropdown-item"
                 href="#"
@@ -79,6 +94,8 @@ export default {
               message: 'You are logged out successfully',
             },
           });
+          const linkTag = document.querySelector('link[data-style="theme"]');
+          linkTag.href = 'https://bootswatch.com/4/cosmo/bootstrap.min.css';
         });
     },
   },

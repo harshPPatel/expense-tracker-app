@@ -57,9 +57,24 @@ export default {
         this.$store.commit('Statement/setStatements', res.statements);
         this.$store.commit('Statement/setTotalExpense', res.totalExpense);
         this.$store.commit('Statement/setTotalIncome', res.totalIncome);
+        // Updating the theme
+        const linkTag = document.querySelector('link[data-style="theme"]');
+        linkTag.href = this.getThemeCSSLink(this.User.settings.theme);
       });
   },
   methods: {
+    getThemeCSSLink(theme) {
+      switch (theme) {
+        case 3:
+          return 'https://bootswatch.com/4/united/bootstrap.min.css';
+        case 1:
+          return 'https://bootswatch.com/4/cyborg/bootstrap.min.css';
+        case 2:
+          return 'https://bootswatch.com/4/lux/bootstrap.min.css';
+        default:
+          return 'https://bootswatch.com/4/cosmo/bootstrap.min.css';
+      }
+    },
   },
 };
 </script>

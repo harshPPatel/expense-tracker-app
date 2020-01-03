@@ -1,12 +1,12 @@
 const { Router } = require('express');
 
-const validateTheme = require('../validators/theme');
 const User = require('../models/User');
+const validateExpenseWarningLimit = require('../validators/expenseWarningLimit');
 
 const router = Router();
 
 /**
- * Handles the get request for theme of the user
+ * Handles the get request of user's expenseWarningLimit
  */
 router.get('/', async (req, res, next) => {
   // Finding the user in database
@@ -19,18 +19,18 @@ router.get('/', async (req, res, next) => {
     return;
   }
 
-  // Returning the theme to the user
+  // Returning the expenseWarningLimit to the user
   res.status(200);
   res.json({
     username: user.username,
-    theme: user.theme,
+    expenseWarningLimit: user.expenseWarningLimit,
   });
 });
 
 /**
- * Handles the update request for theme of users
+ * Handles the update(put) request of user's expenseWarningLimit
  */
-router.put('/update', validateTheme, async (req, res, next) => {
+router.put('/update', validateExpenseWarningLimit, async (req, res, next) => {
   // Finding the user in database
   const user = await User.findOne({ username: req.username }).exec();
 
@@ -41,8 +41,8 @@ router.put('/update', validateTheme, async (req, res, next) => {
     return;
   }
 
-  // Updating the quote
-  user.theme = Number(req.body.theme);
+  // Updating the expenseWarningLimit
+  user.expenseWarningLimit = Number(req.body.expenseWarningLimit);
 
   // Saving user in database
   user.save()
@@ -51,8 +51,8 @@ router.put('/update', validateTheme, async (req, res, next) => {
       res.status(200);
       res.json({
         username: req.username,
-        message: 'Theme has updated successfully!',
-        updatedTheme: user.theme,
+        message: 'Quote has updated successfully!',
+        updatedExpenseWarningLimit: user.expenseWarningLimit,
       });
     })
     .catch((err) => {

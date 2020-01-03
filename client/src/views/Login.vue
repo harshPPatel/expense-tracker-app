@@ -57,6 +57,8 @@ export default {
     if (this.$route.params.error) {
       this.serverError = this.$route.params.error;
     }
+    const linkTag = document.querySelector('link[data-style="theme"]');
+    linkTag.href = 'https://bootswatch.com/4/cosmo/bootstrap.min.css';
   },
   methods: {
     ...mapActions({

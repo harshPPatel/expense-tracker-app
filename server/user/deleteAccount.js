@@ -1,5 +1,16 @@
 const User = require('../models/User');
+const Expense = require('../models/Expense');
+const Income = require('../models/Income');
 const blacklistToken = require('../utils/blacklistToken');
+
+/**
+ * Deletes User's All Data from database
+ * @param {String} username User's username
+ */
+const deleteData = async (username) => {
+  await Expense.remove({ username }).exec();
+  await Income.remove({ username }).exec();
+};
 
 /**
  * Handles the deleteAccount request
@@ -26,6 +37,9 @@ const deleteAccount = async (req, res, next) => {
       const token = req.headers.authorization.split(' ')[1];
       blacklistToken(token)
         .then(() => {
+          // Deleting user data
+          deleteData(user.username);
+          // Sending response to user
           res.status(200);
           res.json({
             message: 'Account deleted successfully',
