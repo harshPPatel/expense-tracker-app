@@ -84,6 +84,18 @@ const routes = [
       }
     },
   },
+  {
+    path: '/incomes',
+    name: 'incomes',
+    component: () => import('../views/Incomes.vue'),
+    beforeEnter: (to, from, next) => {
+      if (store.state.User.isLoggedIn) {
+        next();
+      } else {
+        next(loginRoutePushOptions);
+      }
+    },
+  },
 ];
 
 const router = new VueRouter({

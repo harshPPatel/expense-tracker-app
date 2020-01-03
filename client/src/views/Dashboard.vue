@@ -7,9 +7,11 @@
         <hr>
         <div class="row mt-4">
           <div class="col-md-6 col-12">
-            <chart
-              v-if="Statement.totalExpense"
-              class="chart-container" />
+            <div class="card p-3">
+              <chart
+                v-if="Statement.totalExpense"
+                class="chart-container" />
+            </div>
           </div>
           <div class="col-md-6 col-12">
             <!-- make component -->

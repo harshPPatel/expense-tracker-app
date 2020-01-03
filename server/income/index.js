@@ -28,6 +28,7 @@ router.get('/', async (req, res, next) => {
     .find({
       username: req.username,
     })
+    .sort({ date: -1 })
     .exec();
 
   // Sending the response to the user

@@ -1,16 +1,16 @@
 <template>
   <div class="modal fade"
-    :id="`editExpense-${ expense._id }`"
+    :id="`editIncome-${ income._id }`"
     tabindex="-1"
     role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Edit Expense</h5>
+          <h5 class="modal-title">Edit Income</h5>
           <!-- modal close button -->
           <button type="button"
             class="close"
-            :id="`editExpenseClose-${ expense._id }`"
+            :id="`editIncomeClose-${ income._id }`"
             data-dismiss="modal"
             aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -22,36 +22,36 @@
             v-if="serverError"
             :error="serverError" />
           <div class="form-group">
-            <label :for="`title${ expense._id }`">Title</label>
+            <label :for="`title${ income._id }`">Title</label>
             <input
               v-model="form.title"
               name="title"
               type="text"
               class="form-control"
-              placeholder="Expense Title"
+              placeholder="Income Title"
               minlength="3"
-              :id="`title${ expense._id }`"
+              :id="`title${ income._id }`"
               required>
           </div>
           <div class="form-group">
-            <label :for="`amount${ expense._id }`">Amount</label>
+            <label :for="`amount${ income._id }`">Amount</label>
             <input
               v-model="form.amount"
               type="number"
               class="form-control"
-              placeholder="Expense Amount"
+              placeholder="Income Amount"
               min="0"
-              :id="`amount${ expense._id }`"
+              :id="`amount${ income._id }`"
               required>
           </div>
           <div class="form-group">
-            <label :for="`date${ expense._id }`">Date</label>
+            <label :for="`date${ income._id }`">Date</label>
             <datetime
               v-model="form.date"
               type="datetime"
-              placeholder="Expense Date"
+              placeholder="Income Date"
               class="form-control"
-              :inputId="`date${ expense._id }`"
+              :inputId="`date${ income._id }`"
               required />
           </div>
           <button
@@ -59,7 +59,7 @@
             type="submit"
             class="btn btn-primary btn-block"
             :disabled="!form.title || !form.amount || !form.date || !form._id || isLoading">
-            {{ isLoading ? 'Updating Expense...' : 'Update' }}
+            {{ isLoading ? 'Updating Income...' : 'Update' }}
           </button>
         </div>
       </div>
@@ -72,11 +72,11 @@
 import { Datetime } from 'vue-datetime';
 
 import ErrorAlert from './UI/ErrorAlert.vue';
-import Expense from '../API/Expense';
+import Income from '../API/Income';
 
 export default {
-  name: 'EditExpense',
-  props: ['expense'],
+  name: 'EditIncome',
+  props: ['income'],
   components: {
     Datetime,
     ErrorAlert,
@@ -93,23 +93,23 @@ export default {
   }),
   mounted() {
     // adding values to local state if prop is passed
-    if (this.expense) {
-      this.form.title = this.expense.title;
-      this.form.amount = this.expense.amount;
-      this.form.date = this.expense.date;
-      this.form._id = this.expense._id;
+    if (this.income) {
+      this.form.title = this.income.title;
+      this.form.amount = this.income.amount;
+      this.form.date = this.income.date;
+      this.form._id = this.income._id;
     }
   },
   methods: {
     submitForm() {
       this.isLoading = true;
-      // updating the expense in the database
-      Expense.updateExpense(this.form)
+      // updating the income in the database
+      Income.updateIncome(this.form)
         .then((res) => {
-          // updating the expense in the store
-          this.$store.commit('Expense/updateExpense', res.updatedExpense);
+          // updating the income in the store
+          this.$store.commit('Income/updateIncome', res.updatedIncome);
           // closing the modal
-          const closeButton = document.getElementById(`editExpenseClose-${this.expense._id}`);
+          const closeButton = document.getElementById(`editIncomeClose-${this.income._id}`);
           closeButton.click();
         })
         .catch((err) => {

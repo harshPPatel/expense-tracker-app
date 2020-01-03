@@ -11,7 +11,9 @@
       </p>
       <br>
       <h1>
-        <b class="text-primary">
+        <b :class="`${ Statement.totalExpense > User.settings.expenseWarningLimit
+          ? 'text-danger'
+          : 'text-primary' }`">
           {{ Statement.totalExpense }}
         </b> / <span class="small">
           {{ User.settings.expenseWarningLimit }}

@@ -45,10 +45,8 @@ const update = async (req, res, next) => {
   income.amount = Number(req.body.amount.toString());
   income.date = new Date(req.body.date);
 
-  // delete income.updated
-
   // Saving income to the database
-  income.updateOne()
+  income.save()
     .then(() => {
       res.status(200);
       res.json({

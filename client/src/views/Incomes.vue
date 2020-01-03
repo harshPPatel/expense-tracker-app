@@ -3,33 +3,33 @@
     <div class="row">
       <side-bar />
       <main role="main" class="col-md-9 ml-sm-auto px-4">
-        <h1>Expenses</h1>
+        <h1>Incomes</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <router-link to="/dashboard">Dashboard</router-link>
             </li>
             <li class="breadcrumb-item active">
-              Expenses
+              Incomes
             </li>
           </ol>
         </nav>
         <hr>
         <div class="card mb-4">
           <div class="card-header">
-            Add Expense
+            Add Income
           </div>
           <div class="card-body">
-            <!-- Add Expense Form -->
-            <h5 class="card-title">Create New Expense</h5>
-            <add-expense-form />
+            <!-- Add Income Form -->
+            <h5 class="card-title">Create New Income</h5>
+            <add-income-form />
           </div>
         </div>
       </main>
       <div class="col-12">
-        <!-- Expenses List -->
-        <h3 class="mb-4 mt-4">Your Expenses</h3>
-        <expense-list />
+        <!-- Incomes List -->
+        <h3 class="mb-4 mt-4">Your Incomes</h3>
+        <income-list />
       </div>
     </div>
   </div>
@@ -37,26 +37,26 @@
 
 <script>
 import SideBar from '../components/UI/SideBar.vue';
-import AddExpenseForm from '../components/UI/forms/AddExpenseForm.vue';
-import ExpenseList from '../components/ExpenseList.vue';
-import Expense from '../API/Expense';
+import AddIncomeForm from '../components/UI/forms/AddIncomeForm.vue';
+import IncomeList from '../components/IncomeList.vue';
+import Income from '../API/Income';
 
 export default {
-  name: 'Expenses',
+  name: 'Incomes',
   data: () => ({
     formDate: '',
   }),
   components: {
     SideBar,
-    AddExpenseForm,
-    ExpenseList,
+    AddIncomeForm,
+    IncomeList,
   },
   mounted() {
-    // Getting all expenses from database
-    Expense.getAll()
+    // Getting all incomes from database
+    Income.getAll()
       .then((res) => {
-        // Adding all expenses to the store
-        this.$store.commit('Expense/setExpenses', res.expenses);
+        // Adding all incomes to the store
+        this.$store.commit('Income/setIncomes', res.incomes);
       });
   },
 };
