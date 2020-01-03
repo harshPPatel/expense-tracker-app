@@ -3,6 +3,7 @@ const state = {
   statements: [],
   totalExpense: 0,
   totalIncome: 0,
+  minimumYear: null,
 };
 
 const mutations = {
@@ -14,6 +15,9 @@ const mutations = {
   },
   setTotalIncome(storeState, value) {
     storeState.totalIncome = value;
+  },
+  setMinimumYear(storeState, value) {
+    storeState.minimumYear = value;
   },
 };
 

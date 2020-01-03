@@ -96,6 +96,18 @@ const routes = [
       }
     },
   },
+  {
+    path: '/statements',
+    name: 'statements',
+    component: () => import('../views/Statements.vue'),
+    beforeEnter: (to, from, next) => {
+      if (store.state.User.isLoggedIn) {
+        next();
+      } else {
+        next(loginRoutePushOptions);
+      }
+    },
+  },
 ];
 
 const router = new VueRouter({

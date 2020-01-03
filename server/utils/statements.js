@@ -36,7 +36,7 @@ const mapAndSort = (expenses, incomes) => {
     delete income._doc.__v;
     return {
       ...income._doc,
-      type: 'expense',
+      type: 'income',
     };
   });
 
@@ -44,7 +44,7 @@ const mapAndSort = (expenses, incomes) => {
   const statements = [
     ...mappedExpenses,
     ...mappedIncomes,
-  ].sort(sortByDate);
+  ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return statements;
 };

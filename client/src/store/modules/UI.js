@@ -5,6 +5,10 @@ const state = {
     password: '',
     confirmPassword: '',
   },
+  statements: {
+    month: 0,
+    year: new Date().getFullYear(),
+  },
 };
 
 const mutations = {
@@ -16,6 +20,12 @@ const mutations = {
   },
   setUIConfirmPassword(store, value) {
     store.user.confirmPassword = value;
+  },
+  setUIMonth(store, value) {
+    store.statements.month = value;
+  },
+  setUIYear(store, value) {
+    store.statements.year = value;
   },
 };
 
