@@ -37,13 +37,13 @@ export default {
         this.error = 'Confirm Password is required';
         return;
       }
+      // Saving confirmPassword in store if it is valid
+      this.$store.commit('UI/setUIConfirmPassword', confirmPassword);
       if (confirmPassword !== this.UI.user.password) {
         this.error = 'Confirm Password and Password does not match.';
       } else {
         this.error = '';
       }
-      // Saving confirmPassword in store if it is valid
-      this.$store.commit('UI/setUIConfirmPassword', confirmPassword);
     },
   },
 };
