@@ -1,3 +1,3 @@
 export default {
-  API_URL: 'https://expense-tracker-app-api.now.sh/api/v1',
+  API_URL: 'https://expense-tarcker-app-api.now.sh/api/v1',
 };

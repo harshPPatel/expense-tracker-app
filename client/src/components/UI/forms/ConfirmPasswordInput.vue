@@ -35,13 +35,15 @@ export default {
       // Validating the confirmPassword
       if (!confirmPassword) {
         this.error = 'Confirm Password is required';
-      } else if (confirmPassword !== this.UI.user.password) {
+        return;
+      }
+      if (confirmPassword !== this.UI.user.password) {
         this.error = 'Confirm Password and Password does not match.';
       } else {
-        // Saving confirmPassword in store if it is valid
-        this.$store.commit('UI/setUIConfirmPassword', confirmPassword);
         this.error = '';
       }
+      // Saving confirmPassword in store if it is valid
+      this.$store.commit('UI/setUIConfirmPassword', confirmPassword);
     },
   },
 };
