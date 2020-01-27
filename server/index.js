@@ -18,7 +18,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: 'https://expense-tracker-app.now.sh',
+  origin: 'expense-tracker-app.now.sh',
   optionsSuccessStatus: 200,
 }));
 app.use(express.json());
