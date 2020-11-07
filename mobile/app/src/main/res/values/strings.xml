@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Expense Tracker</string>
+    <string name="username_placeholder">Username</string>
+    <string name="password_placeholder">Password</string>
+    <string name="username_hint">Allowed Characters: A–Z, a–z, 0–9 and _</string>
+    <string name="password_hint">Allowed Characters: A–Z, a–z, 0–9 _ and @</string>
+
+    <string name="shared_preference_key">SHARED_DATA</string>
+</resources>
