@@ -2,8 +2,27 @@
     <string name="app_name">Expense Tracker</string>
     <string name="username_placeholder">Username</string>
     <string name="password_placeholder">Password</string>
-    <string name="username_hint">Allowed Characters: A–Z, a–z, 0–9 and _</string>
-    <string name="password_hint">Allowed Characters: A–Z, a–z, 0–9 _ and @</string>
+    <string name="confirm_password_placeholder">Confirm Password</string>
 
     <string name="shared_preference_key">SHARED_DATA</string>
+
+    <string name="btnLogin_text">LOGIN</string>
+    <string name="btnLogin_loading_text">Logging In...</string>
+    <string name="extra_btnLogin_text">Already have account? Login Now!</string>
+    <string name="btnSignUp_text">SIGN UP</string>
+    <string name="btnSignUp_loading_text">Signing In...</string>
+    <string name="extra_btnSignUp_text">Don\'t have account? Sign Up Now!</string>
+
+    <string name="title_activity_user_dashboard">UserDashboardActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="action_logout">Logout</string>
+
+    <string name="menu_expenses">Expenses</string>
+    <string name="menu_incomes">Incomes</string>
+    <string name="menu_statements">Statements</string>
 </resources>

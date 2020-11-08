@@ -1,7 +1,5 @@
 package com.example.expensetracker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +9,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.expensetracker.model.AuthResponse;
 import com.example.expensetracker.model.Model;
@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
-public class MainActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private Model model;
     private TextInputEditText ietxtUsername, ietxtPassword;
@@ -56,15 +56,12 @@ public class MainActivity extends AppCompatActivity {
         // Validating the token if it already exists in the shared preference and navigating
         // user to dashboard if it is valid one
         if (!token.isEmpty()) {
-            btnLogin.setEnabled(false);
-            btnLogin.setText(R.string.btnLogin_loading_text);
+            Toast.makeText(getApplication(), token, Toast.LENGTH_LONG).show();
             model.validateToken(token, new AbstractAPIListener() {
                 @Override
                 public void onRequestFailed(JSONObject jsonError) {
                     Toast.makeText(getApplication(), "Invalid Token. Please Login again!", Toast.LENGTH_LONG).show();
                     resetSharedPreference();
-                    btnLogin.setEnabled(true);
-                    btnLogin.setText(R.string.btnLogin_text);
                 }
 
                 @Override
@@ -114,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
      * Navigates the user to Dashboard activity
      */
     public void navigateToDashboard() {
-        Intent intent = new Intent(MainActivity.this, UserDashboardActivity.class);
+        Intent intent = new Intent(SignUpActivity.this, UserDashboardActivity.class);
         startActivity(intent);
-        Toast.makeText(getApplication(), "Logged In Successfully!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplication(), "Logged In Successfully!", Toast.LENGTH_LONG).show();
     }
 
     /**

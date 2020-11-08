@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:forceDarkAllowed="false"
-    tools:context=".MainActivity">
+    tools:context=".SignUpActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="306dp"
@@ -17,24 +17,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.498">
 
-        <Button
-            android:id="@+id/btnSignUp"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/extra_btnSignUp_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnLogin" />
-
         <TextView
             android:id="@+id/txtLoginTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
             android:gravity="center"
-            android:text="Login"
+            android:text="Sign Up"
             android:textAllCaps="true"
             android:textIsSelectable="false"
             android:textSize="28sp"
@@ -85,17 +74,51 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etlConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="@string/confirm_password_placeholder"
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
+            app:errorEnabled="true"
+            app:helperTextEnabled="true"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:layout_constraintTop_toBottomOf="@+id/etlPassword"
+            app:passwordToggleEnabled="true"
+            tools:layout_editor_absoluteX="1dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ietxtConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="24dp"
             android:enabled="false"
-            android:onClick="onBtnLoginClicked"
-            android:text="@string/btnLogin_text"
+            android:onClick="onBtnSignUpClicked"
+            android:text="@string/btnSignUp_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etlPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/etlConfirmPassword" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/extra_btnLogin_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSignUp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.example.expensetracker.model.api.API;
 import com.example.expensetracker.model.api.APIListener;
-import com.example.expensetracker.model.api.WebAPI;
+import com.example.expensetracker.model.api.AuthAPI;
 
 public class Model {
     private static Model model = null;
@@ -13,7 +13,7 @@ public class Model {
 
     private Model(Application app) {
         application = app;
-        api = new WebAPI(app);
+        api = new AuthAPI(app);
     }
 
     public Application getApplication() {
@@ -29,5 +29,9 @@ public class Model {
 
     public void login(String username, String password, APIListener apiListener) {
         api.login(username, password, apiListener);
+    }
+
+    public void validateToken(String token, APIListener apiListener) {
+        api.validateToken(token, apiListener);
     }
 }

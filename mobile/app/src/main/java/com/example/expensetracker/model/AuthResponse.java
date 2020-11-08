@@ -17,16 +17,8 @@ public class AuthResponse {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getToken() {
         return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public static AuthResponse getAuthResponse(JSONObject jsonObject) throws JSONException {
