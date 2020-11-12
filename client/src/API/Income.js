@@ -1,5 +1,5 @@
-import config from "../config";
-import store from "../store";
+import config from '../config';
+import store from '../store';
 
 /**
  * Makes Get All Income call to the API server
@@ -10,13 +10,13 @@ const getAll = async () => {
   let promise;
   const url = `${config.API_URL}/income/`;
   await fetch(url, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: store.state.User.token,
     },
   })
-    .then((res) => res.json())
+    .then(res => res.json())
     .then((data) => {
       promise = new Promise((resolve, reject) => {
         // rejecting promise if response has errorCode
@@ -39,14 +39,14 @@ const addIncome = async (income) => {
   let promise;
   const url = `${config.API_URL}/income/create`;
   await fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: store.state.User.token,
     },
     body: JSON.stringify(income),
   })
-    .then((res) => res.json())
+    .then(res => res.json())
     .then((data) => {
       promise = new Promise((resolve, reject) => {
         // rejecting promise if response has errorCode
@@ -69,14 +69,14 @@ const updateIncome = async (income) => {
   let promise;
   const url = `${config.API_URL}/income/update`;
   await fetch(url, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: store.state.User.token,
     },
     body: JSON.stringify(income),
   })
-    .then((res) => res.json())
+    .then(res => res.json())
     .then((data) => {
       promise = new Promise((resolve, reject) => {
         // rejecting promise if response has errorCode
@@ -99,13 +99,13 @@ const removeIncome = async (id) => {
   let promise;
   const url = `${config.API_URL}/income/${id}`;
   await fetch(url, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: store.state.User.token,
     },
   })
-    .then((res) => res.json())
+    .then(res => res.json())
     .then((data) => {
       promise = new Promise((resolve, reject) => {
         // rejecting promise if response has errorCode

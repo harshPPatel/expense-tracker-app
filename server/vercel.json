@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "expense-tarcker-app-api",
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@now/node-server"
+    }
+  ],
+  "routes": [{ "src": "/.*", "dest": "index.js" }]
+}
