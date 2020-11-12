@@ -2,6 +2,8 @@ package com.example.expensetracker.model;
 
 import android.app.Application;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.expensetracker.model.api.ExpenseAPI;
 import com.example.expensetracker.model.api.ExpenseAPIListener;
 import com.example.expensetracker.model.api.IAuthAPI;
@@ -17,8 +19,9 @@ public class Model {
 
     private Model(Application app) {
         application = app;
-        IAuthApi = new AuthAPI(app);
-        iExpenseAPI = new ExpenseAPI(app);
+        RequestQueue requestQueue = Volley.newRequestQueue(app);
+        IAuthApi = new AuthAPI(app, requestQueue);
+        iExpenseAPI = new ExpenseAPI(app, requestQueue);
     }
 
     public Application getApplication() {

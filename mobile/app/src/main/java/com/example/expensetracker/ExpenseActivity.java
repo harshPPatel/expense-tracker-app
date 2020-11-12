@@ -3,6 +3,7 @@ package com.example.expensetracker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -61,6 +62,9 @@ public class ExpenseActivity extends AppCompatActivity {
                 @Override
                 public void onExpenseDeleted(String id) {
                     Toast.makeText(getApplicationContext(), "Deleted Expense Successfully!", Toast.LENGTH_SHORT).show();
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("id", id);
+                    setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 }
             });

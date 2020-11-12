@@ -1,5 +1,6 @@
 package com.example.expensetracker.ui.expenses;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 public class ExpensesFragment extends Fragment {
 
     private ExpensesViewModel expensesViewModel;
+    private final int LAUNCH_EXPENSE_ACTIVITY = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,11 +47,20 @@ public class ExpensesFragment extends Fragment {
                         intent.putExtra("title", expenseResponses.get(i).getTitle());
                         intent.putExtra("amount", expenseResponses.get(i).getAmount());
                         intent.putExtra("date", expenseResponses.get(i).getDate().toString());
-                        startActivity(intent);
+                        startActivityForResult(intent, LAUNCH_EXPENSE_ACTIVITY);
                     }
                 });
             }
         });
         return root;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            String id = data.getStringExtra("id");
+            expensesViewModel.removeExpense(id);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

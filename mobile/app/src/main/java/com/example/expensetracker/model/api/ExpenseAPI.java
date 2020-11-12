@@ -10,8 +10,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.expensetracker.model.AuthResponse;
 import com.example.expensetracker.model.ExpenseResponse;
 
 import org.json.JSONArray;
@@ -24,13 +22,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ExpenseAPI implements IExpenseAPI {
-    public static final String BASE_URL = "https://expense-tracker-app-api.now.sh/api/v1";
+    public static final String BASE_URL = "https://expense-tarcker-app-api.now.sh/api/v1";
 
     private RequestQueue requestQueue;
     private Application application;
 
-    public ExpenseAPI(Application app) {
-        requestQueue = Volley.newRequestQueue(app);
+    public ExpenseAPI(Application app, RequestQueue requestQueue) {
+        this.requestQueue = requestQueue;
         application = app;
     }
 
@@ -87,14 +85,7 @@ public class ExpenseAPI implements IExpenseAPI {
     }
 
     public void deleteExpense(final String token, String id, final ExpenseAPIListener expenseAPIListener) {
-        String uri = BASE_URL + "/expense/delete";
-
-        JSONObject body = new JSONObject();
-        try {
-            body.put("_id", id);
-        } catch (JSONException e) {
-            Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
-        }
+        String uri = BASE_URL + "/expense/" + id;
 
         Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
             @Override
@@ -125,7 +116,7 @@ public class ExpenseAPI implements IExpenseAPI {
             }
         };
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, uri, body, successListener, errorListener) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, uri, null, successListener, errorListener) {
             /**
              * Passing token as header
              */

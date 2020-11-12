@@ -17,10 +17,7 @@ const statement = require('./statements');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({
-  origin: 'expense-tracker-app.now.sh',
-  optionsSuccessStatus: 200,
-}));
+app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 

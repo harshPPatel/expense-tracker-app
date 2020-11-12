@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AuthAPI implements IAuthAPI {
-    public static final String BASE_URL = "https://expense-tracker-app-api.now.sh/api/v1";
+    public static final String BASE_URL = "https://expense-tarcker-app-api.now.sh/api/v1";
 
     private RequestQueue requestQueue;
     private Application application;
 
-    public AuthAPI(Application app) {
-        requestQueue = Volley.newRequestQueue(app);
+    public AuthAPI(Application app, RequestQueue requestQueue) {
+        this.requestQueue = requestQueue;
         application = app;
     }
 

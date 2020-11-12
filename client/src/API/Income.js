@@ -97,13 +97,14 @@ const updateIncome = async (income) => {
  */
 const removeIncome = async (id) => {
   let promise;
-  const url = `${config.API_URL}/income/${id}`;
+  const url = `${config.API_URL}/income/delete`;
   await fetch(url, {
-    method: 'DELETE',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: store.state.User.token,
     },
+    body: JSON.stringify({ _id: id }),
   })
     .then(res => res.json())
     .then((data) => {

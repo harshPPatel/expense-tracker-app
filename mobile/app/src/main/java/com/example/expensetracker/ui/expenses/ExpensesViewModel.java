@@ -20,6 +20,7 @@ import com.example.expensetracker.model.api.AbstractListener;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class ExpensesViewModel extends AndroidViewModel {
 
@@ -61,5 +62,17 @@ public class ExpensesViewModel extends AndroidViewModel {
 
     public LiveData<String> getText() {
         return mText;
+    }
+
+    public LiveData<ArrayList<ExpenseResponse>> removeExpense(final String id) {
+        ArrayList<ExpenseResponse> expenseResponses = expenses.getValue();
+        for (ExpenseResponse response : expenseResponses) {
+            if (response.getId().equals(id)) {
+                expenseResponses.remove(response);
+                break;
+            }
+        }
+        expenses.setValue(expenseResponses);
+        return expenses;
     }
 }
