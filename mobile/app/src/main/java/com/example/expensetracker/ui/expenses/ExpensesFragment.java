@@ -1,9 +1,11 @@
 package com.example.expensetracker.ui.expenses;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.expensetracker.ExpenseActivity;
 import com.example.expensetracker.R;
 import com.example.expensetracker.model.ExpenseResponse;
 
@@ -31,9 +34,19 @@ public class ExpensesFragment extends Fragment {
         final ListView lsvExpenses = root.findViewById(R.id.lsvExpenses);
         expensesViewModel.getExpenses().observe(getViewLifecycleOwner(), new Observer<ArrayList<ExpenseResponse>>() {
             @Override
-            public void onChanged(ArrayList<ExpenseResponse> expenseResponses) {
+            public void onChanged(final ArrayList<ExpenseResponse> expenseResponses) {
                 ExpensesAdapter expensesAdapter = new ExpensesAdapter(getContext(), R.layout.expnese_layout, expenseResponses);
                 lsvExpenses.setAdapter(expensesAdapter);
+                lsvExpenses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(getContext(), ExpenseActivity.class);
+                        intent.putExtra("title", expenseResponses.get(i).getTitle());
+                        intent.putExtra("amount", expenseResponses.get(i).getAmount());
+                        intent.putExtra("date", expenseResponses.get(i).getDate().toString());
+                        startActivity(intent);
+                    }
+                });
             }
         });
         return root;

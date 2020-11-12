@@ -43,8 +43,23 @@ public class UserDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // STRETCH TODO: Make it work for adding new item!
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                NavController navController = Navigation.findNavController(UserDashboardActivity.this, R.id.nav_host_fragment);
+                int currentId = navController.getCurrentDestination().getId();
+                switch (currentId) {
+                    case R.id.nav_incomes:
+                        Snackbar.make(view, "Fab click from Incomes", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        break;
+                    case R.id.nav_statements:
+                        Snackbar.make(view, "Fab click from Statements", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        break;
+                    default:
+                        // By default, opens new Expense screen
+                        Snackbar.make(view, "Fab click from Expenses", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                }
+
             }
         });
 
