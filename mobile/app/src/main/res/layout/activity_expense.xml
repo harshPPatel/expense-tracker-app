@@ -94,6 +94,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="50dp"
+        android:onClick="onBtnExpenseDeleteClicked"
         android:text="Delete"
         app:backgroundTint="@color/secondaryColor"
         app:layout_constraintStart_toEndOf="@+id/btnEditExpense"

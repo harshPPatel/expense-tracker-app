@@ -52,4 +52,8 @@ public class Model {
         iExpenseAPI.fetchExpenses(token, expenseAPIListener);
     }
 
+    public void deleteExpense(String token, String id, ExpenseAPIListener expenseAPIListener) {
+        iExpenseAPI.deleteExpense(token, id, expenseAPIListener);
+    }
+
 }

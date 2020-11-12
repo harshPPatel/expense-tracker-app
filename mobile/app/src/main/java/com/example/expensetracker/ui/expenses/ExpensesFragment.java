@@ -41,6 +41,7 @@ public class ExpensesFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Intent intent = new Intent(getContext(), ExpenseActivity.class);
+                        intent.putExtra("id", expenseResponses.get(i).getId());
                         intent.putExtra("title", expenseResponses.get(i).getTitle());
                         intent.putExtra("amount", expenseResponses.get(i).getAmount());
                         intent.putExtra("date", expenseResponses.get(i).getDate().toString());

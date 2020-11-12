@@ -86,4 +86,58 @@ public class ExpenseAPI implements IExpenseAPI {
         requestQueue.add(request);
     }
 
+    public void deleteExpense(final String token, String id, final ExpenseAPIListener expenseAPIListener) {
+        String uri = BASE_URL + "/expense/delete";
+
+        JSONObject body = new JSONObject();
+        try {
+            body.put("_id", id);
+        } catch (JSONException e) {
+            Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
+        }
+
+        Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String id = response.getString("removedExpenseId");
+                    expenseAPIListener.onExpenseDeleted(id);
+                } catch (JSONException e) {
+                    Toast.makeText(application, "JSON Parse Exception", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null && networkResponse.data != null) {
+                    String responseError = new String(networkResponse.data);
+                    try {
+                        JSONObject jsonError = new JSONObject(responseError);
+                        expenseAPIListener.onRequestFailed(jsonError);
+                    } catch (JSONException e) {
+                        Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            }
+        };
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, uri, body, successListener, errorListener) {
+            /**
+             * Passing token as header
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", token);
+                return headers;
+            }
+        };
+        requestQueue.add(request);
+    }
+
 }

@@ -24,10 +24,9 @@ router.get('/', async (req, res, next) => {
   }
 
   // Finding all expenses of user
-  const incomes = await Income
-    .find({
-      username: req.username,
-    })
+  const incomes = await Income.find({
+    username: req.username,
+  })
     .sort({ date: -1 })
     .exec();
 
@@ -47,6 +46,6 @@ router.post('/create', validateIncome.create, create);
 router.put('/update', validateIncome.update, update);
 
 // Expense remove Route
-router.delete('/delete', validateIncome.remove, remove);
+router.delete('/:id', remove);
 
 module.exports = router;

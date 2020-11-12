@@ -23,7 +23,7 @@ const remove = async (req, res, next) => {
 
   // Finding income in database
   const income = await Income.findOne({
-    _id: req.body._id.toString(),
+    _id: req.params.id.toString(),
   }).exec();
 
   // Throwing error if income not found
@@ -41,7 +41,8 @@ const remove = async (req, res, next) => {
   }
 
   // Saving income to the database
-  income.remove()
+  income
+    .remove()
     .then(() => {
       res.status(200);
       res.json({
