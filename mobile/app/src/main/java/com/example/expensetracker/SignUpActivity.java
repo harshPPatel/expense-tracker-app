@@ -10,11 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.expensetracker.model.AuthResponse;
 import com.example.expensetracker.model.Model;
-import com.example.expensetracker.model.api.AbstractAPIListener;
+import com.example.expensetracker.model.api.AbstractListener;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -25,10 +25,10 @@ import java.util.regex.Pattern;
 public class SignUpActivity extends AppCompatActivity {
 
     private Model model;
-    private TextInputEditText ietxtUsername, ietxtPassword;
-    private Button btnLogin;
+    private TextInputEditText ietxtUsername, ietxtPassword, ietxtConfirmPassword;
+    private Button btnSignUp, btnLogin;
     private SharedPreferences sharedPreferences;
-    private boolean isValidUsername = false, isValidPassword = false;
+    private boolean isValidUsername = false, isValidPassword = false, isValidConfirmedPassword;
 
     /**
      * Fired when MainActivity is created
@@ -37,11 +37,13 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_signup);
         getSupportActionBar().hide();
 
-        ietxtUsername = findViewById(R.id.ietxtUsername);
-        ietxtPassword = findViewById(R.id.ietxtPassword);
+        ietxtUsername = findViewById(R.id.ietxtSignupUsername);
+        ietxtPassword = findViewById(R.id.ietxtSignupPassword);
+        ietxtConfirmPassword = findViewById(R.id.ietxtSignupConfirmPassword);
+        btnSignUp = findViewById(R.id.btnSignUp);
         btnLogin = findViewById(R.id.btnLogin);
 
         model = Model.getInstance(this.getApplication());
@@ -50,45 +52,25 @@ public class SignUpActivity extends AppCompatActivity {
         // Adding validators to the text fields
         ietxtUsername.addTextChangedListener(new UserNameValidator());
         ietxtPassword.addTextChangedListener(new PasswordValidator());
-
-        // fetching token from sharedPreference
-        String token = sharedPreferences.getString("token", "");
-        // Validating the token if it already exists in the shared preference and navigating
-        // user to dashboard if it is valid one
-        if (!token.isEmpty()) {
-            Toast.makeText(getApplication(), token, Toast.LENGTH_LONG).show();
-            model.validateToken(token, new AbstractAPIListener() {
-                @Override
-                public void onRequestFailed(JSONObject jsonError) {
-                    Toast.makeText(getApplication(), "Invalid Token. Please Login again!", Toast.LENGTH_LONG).show();
-                    resetSharedPreference();
-                }
-
-                @Override
-                public void onValidToken(boolean result) {
-                    navigateToDashboard();
-                }
-            });
-        }
-
-        // TODO: Add Sign Up Button!
+        ietxtConfirmPassword.addTextChangedListener(new ConfirmPasswordValidator());
     }
 
     /**
-     * Fired when btnLogin is clicked in the view
-     * @param view btnLogin
+     * Fired when btnSignUp is clicked in the view
+     * @param view btnSignUp
      */
-    public void onBtnLoginClicked(View view) {
+    public void onBtnSignUpClicked(View view) {
+        btnSignUp.setEnabled(false);
         btnLogin.setEnabled(false);
-        btnLogin.setText(R.string.btnLogin_loading_text);
+        btnSignUp.setText(R.string.btnSignUp_loading_text);
 
-        model.login(ietxtUsername.getText().toString(), ietxtPassword.getText().toString(), new AbstractAPIListener() {
+        model.signup(ietxtUsername.getText().toString(), ietxtPassword.getText().toString(), ietxtConfirmPassword.getText().toString(), new AbstractListener() {
             @Override
-            public void onLogin(AuthResponse authResponse) {
-                saveToSharedPreference(authResponse);
-                navigateToDashboard();
+            public void onSignUp(String username) {
+                navigateToLogin(username);
+                btnSignUp.setEnabled(true);
                 btnLogin.setEnabled(true);
-                btnLogin.setText(R.string.btnLogin_text);
+                btnSignUp.setText(R.string.btnSignUp_text);
             }
 
             @Override
@@ -100,41 +82,30 @@ public class SignUpActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(getApplication(), "JSON Parse Error", Toast.LENGTH_LONG).show();
                 }
-                resetSharedPreference();
+                btnSignUp.setEnabled(true);
                 btnLogin.setEnabled(true);
-                btnLogin.setText(R.string.btnLogin_text);
+                btnSignUp.setText(R.string.btnSignUp_text);
             }
         });
     }
 
     /**
+     * used when user clicks btnLogin in the view
+     * @param view
+     */
+    public void onBtnLoginClicked(View view) {
+        navigateToLogin(null);
+    }
+
+    /**
      * Navigates the user to Dashboard activity
      */
-    public void navigateToDashboard() {
-        Intent intent = new Intent(SignUpActivity.this, UserDashboardActivity.class);
+    public void navigateToLogin(@Nullable String username) {
+        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+        if (username != null) {
+            intent.putExtra("username", username);
+        }
         startActivity(intent);
-        Toast.makeText(getApplication(), "Logged In Successfully!", Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * Saves data got from AuthResponse to shared preference
-     * @param authResponse Auth Response from Login API call
-     */
-    public void saveToSharedPreference(AuthResponse authResponse) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("username", authResponse.getUsername());
-        editor.putString("token", authResponse.getToken());
-        editor.commit();
-    }
-
-    /**
-     * Resets the sharedPreference and removes the user and token value from it
-     */
-    public void resetSharedPreference() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("username");
-        editor.remove("token");
-        editor.commit();
     }
 
     /**
@@ -150,7 +121,7 @@ public class SignUpActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String username = charSequence.toString();
             isValidUsername = false;
-            btnLogin.setEnabled(false);
+            btnSignUp.setEnabled(false);
             if (username.isEmpty()) {
                 ietxtUsername.setError("Username is required!");
             } else if (username.length() < 3) {
@@ -162,8 +133,8 @@ public class SignUpActivity extends AppCompatActivity {
             } else {
                 isValidUsername = true;
                 ietxtUsername.setError(null);
-                if (isValidPassword) {
-                    btnLogin.setEnabled(true);
+                if (isValidPassword && isValidConfirmedPassword) {
+                    btnSignUp.setEnabled(true);
                 }
             }
         }
@@ -187,7 +158,7 @@ public class SignUpActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String password = charSequence.toString();
             isValidPassword = false;
-            btnLogin.setEnabled(false);
+            btnSignUp.setEnabled(false);
             if (password.isEmpty()) {
                 ietxtPassword.setError("Password is required!");
             } else if (password.length() < 6) {
@@ -199,8 +170,43 @@ public class SignUpActivity extends AppCompatActivity {
             } else {
                 isValidPassword = true;
                 ietxtPassword.setError(null);
-                if (isValidUsername) {
-                    btnLogin.setEnabled(true);
+                if (isValidUsername && isValidConfirmedPassword) {
+                    btnSignUp.setEnabled(true);
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            // ignore
+        }
+    }
+
+    /**
+     * Validator which runs whenever text changes in Password input field
+     */
+    public class ConfirmPasswordValidator implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            // ignore
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String password = charSequence.toString();
+            isValidConfirmedPassword = false;
+            btnSignUp.setEnabled(false);
+            if (password.isEmpty()) {
+                ietxtConfirmPassword.setError("Confirm Password is required");
+            } else if (!isValidPassword) {
+                ietxtConfirmPassword.setError("Main Password is not valid");
+            } else if (!password.equals(ietxtPassword.getText().toString())) {
+                ietxtConfirmPassword.setError("Both passwords does no match");
+            } else {
+                isValidConfirmedPassword = true;
+                ietxtConfirmPassword.setError(null);
+                if (isValidUsername && isValidPassword) {
+                    btnSignUp.setEnabled(true);
                 }
             }
         }

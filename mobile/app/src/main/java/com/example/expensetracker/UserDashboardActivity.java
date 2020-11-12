@@ -1,6 +1,7 @@
 package com.example.expensetracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,14 +9,13 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
 
+import com.example.expensetracker.model.Model;
+import com.example.expensetracker.model.api.AbstractListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -23,10 +23,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class UserDashboardActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private SharedPreferences sharedPreferences;
+    private Model model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,9 @@ public class UserDashboardActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        model = Model.getInstance(this.getApplication());
+
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -59,10 +66,37 @@ public class UserDashboardActivity extends AppCompatActivity {
     }
 
     public void onActionLogoutClicked(MenuItem item) {
+        String token = sharedPreferences.getString("token", "");
+        if (!token.isEmpty()) {
+            model.logout(token, new AbstractListener() {
+                @Override
+                public void onRequestFailed(JSONObject jsonError) {
+                    try {
+                        // EXTRA TODO: Custom Toast with error theme
+                        Toast.makeText(getApplication(), "ERROR: " + jsonError.getString("message"), Toast.LENGTH_LONG).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplication(), "JSON Parse Error", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            // even if this request succeeds or it fails, we will logout user
+            logoutUser();
+        }
+
+    }
+
+    private void logoutUser() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("username");
         editor.remove("token");
         editor.commit();
+
+        // Navigating user back to login screen
+        Intent intent = new Intent(UserDashboardActivity.this, MainActivity.class);
+        startActivity(intent);
+
+        Toast.makeText(getApplicationContext(), "Your are logged out now!", Toast.LENGTH_LONG).show();
     }
 
     @Override

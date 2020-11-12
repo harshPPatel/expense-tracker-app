@@ -19,7 +19,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AuthAPI implements API {
+public class AuthAPI implements IAuthAPI {
     public static final String BASE_URL = "https://expense-tracker-app-api.now.sh/api/v1";
 
     private RequestQueue requestQueue;
@@ -30,7 +30,7 @@ public class AuthAPI implements API {
         application = app;
     }
 
-    public void login(String username, String password, final APIListener apiListener) {
+    public void login(String username, String password, final AuthAPIListener authApiListener) {
         String uri = BASE_URL + "/auth/login";
         JSONObject body = new JSONObject();
         try {
@@ -45,7 +45,7 @@ public class AuthAPI implements API {
             public void onResponse(JSONObject response) {
                 try {
                     AuthResponse authResponse = AuthResponse.getAuthResponse(response);
-                    apiListener.onLogin(authResponse);
+                    authApiListener.onLogin(authResponse);
                 } catch (JSONException e) {
                     Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
                 }
@@ -60,7 +60,7 @@ public class AuthAPI implements API {
                     String responseError = new String(networkResponse.data);
                     try {
                         JSONObject jsonError = new JSONObject(responseError);
-                        apiListener.onRequestFailed(jsonError);
+                        authApiListener.onRequestFailed(jsonError);
                     } catch (JSONException e) {
                         Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
                     }
@@ -73,14 +73,23 @@ public class AuthAPI implements API {
         requestQueue.add(request);
     }
 
-    public void validateToken(final String token, final APIListener apiListener) {
-        String uri = BASE_URL + "/auth/token";
+    public void signup(String username, String password, String confirmPassword, final AuthAPIListener authApiListener) {
+        String uri = BASE_URL + "/auth/signup";
+        JSONObject body = new JSONObject();
+        try {
+            body.put("username", username);
+            body.put("password", password);
+            body.put("confirmPassword", confirmPassword);
+        } catch (JSONException e) {
+            Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
+        }
+
         Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    boolean isValidToken = response.getBoolean("isValidToken");
-                    apiListener.onValidToken(isValidToken);
+                    String username = response.getString("username");
+                    authApiListener.onSignUp(username);
                 } catch (JSONException e) {
                     Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
                 }
@@ -95,7 +104,82 @@ public class AuthAPI implements API {
                     String responseError = new String(networkResponse.data);
                     try {
                         JSONObject jsonError = new JSONObject(responseError);
-                        apiListener.onRequestFailed(jsonError);
+                        authApiListener.onRequestFailed(jsonError);
+                    } catch (JSONException e) {
+                        Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            }
+        };
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, uri, body, successListener, errorListener);
+        requestQueue.add(request);
+    }
+
+    public void validateToken(final String token, final AuthAPIListener authApiListener) {
+        String uri = BASE_URL + "/auth/token";
+        Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    boolean isValidToken = response.getBoolean("isValidToken");
+                    authApiListener.onValidToken(isValidToken);
+                } catch (JSONException e) {
+                    Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null && networkResponse.data != null) {
+                    String responseError = new String(networkResponse.data);
+                    try {
+                        JSONObject jsonError = new JSONObject(responseError);
+                        authApiListener.onRequestFailed(jsonError);
+                    } catch (JSONException e) {
+                        Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            }
+        };
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, uri, null, successListener, errorListener) {
+            /**
+             * Passing token as header
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", token);
+                return headers;
+            }
+        };
+        requestQueue.add(request);
+    }
+    public void logout(final String token, final AuthAPIListener authApiListener) {
+        String uri = BASE_URL + "/auth/logout";
+        Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                authApiListener.onLogout();
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null && networkResponse.data != null) {
+                    String responseError = new String(networkResponse.data);
+                    try {
+                        JSONObject jsonError = new JSONObject(responseError);
+                        authApiListener.onRequestFailed(jsonError);
                     } catch (JSONException e) {
                         Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
                     }

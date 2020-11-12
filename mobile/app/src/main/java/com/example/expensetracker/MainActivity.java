@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.expensetracker.model.AuthResponse;
 import com.example.expensetracker.model.Model;
-import com.example.expensetracker.model.api.AbstractAPIListener;
+import com.example.expensetracker.model.api.AbstractListener;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Model model;
     private TextInputEditText ietxtUsername, ietxtPassword;
-    private Button btnLogin;
+    private Button btnLogin, btnSignUp;
     private SharedPreferences sharedPreferences;
     private boolean isValidUsername = false, isValidPassword = false;
 
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         ietxtUsername = findViewById(R.id.ietxtUsername);
         ietxtPassword = findViewById(R.id.ietxtPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnSignUp = findViewById(R.id.btnSignUp);
 
         model = Model.getInstance(this.getApplication());
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preference_key), Context.MODE_PRIVATE);
@@ -57,13 +58,15 @@ public class MainActivity extends AppCompatActivity {
         // user to dashboard if it is valid one
         if (!token.isEmpty()) {
             btnLogin.setEnabled(false);
+            btnSignUp.setEnabled(false);
             btnLogin.setText(R.string.btnLogin_loading_text);
-            model.validateToken(token, new AbstractAPIListener() {
+            model.validateToken(token, new AbstractListener() {
                 @Override
                 public void onRequestFailed(JSONObject jsonError) {
                     Toast.makeText(getApplication(), "Invalid Token. Please Login again!", Toast.LENGTH_LONG).show();
                     resetSharedPreference();
                     btnLogin.setEnabled(true);
+                    btnSignUp.setEnabled(true);
                     btnLogin.setText(R.string.btnLogin_text);
                 }
 
@@ -74,7 +77,12 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        // TODO: Add Sign Up Button!
+        // Adding username to the field if user comes from sign up
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("username");
+        if (username != null) {
+            ietxtUsername.setText(username);
+        }
     }
 
     /**
@@ -85,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setEnabled(false);
         btnLogin.setText(R.string.btnLogin_loading_text);
 
-        model.login(ietxtUsername.getText().toString(), ietxtPassword.getText().toString(), new AbstractAPIListener() {
+        model.login(ietxtUsername.getText().toString(), ietxtPassword.getText().toString(), new AbstractListener() {
             @Override
             public void onLogin(AuthResponse authResponse) {
                 saveToSharedPreference(authResponse);
@@ -108,6 +116,15 @@ public class MainActivity extends AppCompatActivity {
                 btnLogin.setText(R.string.btnLogin_text);
             }
         });
+    }
+
+    /**
+     * used when user clicks btnLogin in the view
+     * @param view
+     */
+    public void onBtnSignUpClicked(View view) {
+        Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+        startActivity(intent);
     }
 
     /**

@@ -10,7 +10,7 @@
     <string name="btnLogin_loading_text">Logging In...</string>
     <string name="extra_btnLogin_text">Already have account? Login Now!</string>
     <string name="btnSignUp_text">SIGN UP</string>
-    <string name="btnSignUp_loading_text">Signing In...</string>
+    <string name="btnSignUp_loading_text">Signing UP...</string>
     <string name="extra_btnSignUp_text">Don\'t have account? Sign Up Now!</string>
 
     <string name="title_activity_user_dashboard">UserDashboardActivity</string>

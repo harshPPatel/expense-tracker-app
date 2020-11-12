@@ -2,11 +2,9 @@ package com.example.expensetracker.model.api;
 
 import com.example.expensetracker.model.AuthResponse;
 
-import org.json.JSONObject;
-
-public interface APIListener {
+public interface AuthAPIListener extends BaseListener {
     void onLogin(AuthResponse authResponse);
     void onValidToken(boolean result);
-
-    void onRequestFailed(JSONObject jsonError);
+    void onLogout();
+    void onSignUp(String username);
 }
