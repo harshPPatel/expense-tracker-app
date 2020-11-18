@@ -1,6 +1,7 @@
 package com.example.expensetracker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -149,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("username", authResponse.getUsername());
         editor.putString("token", authResponse.getToken());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor spEditor = sp.edit();
+        spEditor.putString("currency", authResponse.getCurrency());
+        spEditor.commit();
         editor.commit();
     }
 
