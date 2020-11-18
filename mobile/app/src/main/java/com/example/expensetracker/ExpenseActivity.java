@@ -2,6 +2,7 @@ package com.example.expensetracker;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -62,8 +63,9 @@ public class ExpenseActivity extends AppCompatActivity {
         sharedPreferences = getApplication().getSharedPreferences(getString(R.string.shared_preference_key), Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
 
-        // TODO: update currency icon dynamically
-        txtExpenseAmount.setText("$ " + df2.format(intent.getDoubleExtra("amount", 0)));
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        String currency = sp.getString("currency", "$");
+        txtExpenseAmount.setText(currency + " " + df2.format(intent.getDoubleExtra("amount", 0)));
     }
 
     public void onBtnExpenseDeleteClicked(View view) {

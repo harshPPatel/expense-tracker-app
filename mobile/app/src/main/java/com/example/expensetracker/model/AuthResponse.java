@@ -2,15 +2,18 @@ package com.example.expensetracker.model;
 
 import androidx.annotation.Nullable;
 
+import com.android.volley.toolbox.JsonObjectRequest;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class AuthResponse {
-    private  String username, token;
+    private  String username, token, currency;
 
-    public AuthResponse(String username, String token) {
+    public AuthResponse(String username, String token, String currency) {
         this.username = username;
         this.token = token;
+        this.currency = currency;
     }
 
     public String getUsername() {
@@ -21,11 +24,17 @@ public class AuthResponse {
         return token;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
     public static AuthResponse getAuthResponse(JSONObject jsonObject) throws JSONException {
         String username = jsonObject.getString("username");
         String token = jsonObject.getString("token");
+        JSONObject settingsJson = jsonObject.getJSONObject("settings");
+        String currency = settingsJson.getString("currency");
 
-        AuthResponse authResponse = new AuthResponse(username, token);
+        AuthResponse authResponse = new AuthResponse(username, token, currency);
         return authResponse;
     }
 

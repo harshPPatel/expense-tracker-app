@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO: Implement Settings
         // TODO: Refactor code and add comments! IMPORTANT!
         // TODO: remove unnecessary imports
+        // TODO: Remove all warnings from project! IMPORTANT
 
         // fetching token from sharedPreference
         String token = sharedPreferences.getString("token", "");
@@ -110,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRequestFailed(JSONObject jsonError) {
                 try {
-                    // EXTRA TODO: Custom Toast with error theme
                     Toast.makeText(getApplication(), "ERROR: " + jsonError.getString("message"), Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();

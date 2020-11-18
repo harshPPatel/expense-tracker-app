@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_settings"
+        android:onClick="onActionSettingsClicked"
+        android:orderInCategory="100"
+        android:title="Settings"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_logout"
         android:onClick="onActionLogoutClicked"
         android:orderInCategory="100"

@@ -62,7 +62,6 @@ public class ExpenseFormActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preference_key), Context.MODE_PRIVATE);
 
         if (isEdit) {
-            // TODO: Change button text if it is for edit and also fill the values
             String title = intent.getStringExtra("title");
             String date = intent.getStringExtra("date");
             double amount = intent.getDoubleExtra("amount", 0);
@@ -116,7 +115,6 @@ public class ExpenseFormActivity extends AppCompatActivity {
 
 
     public void onBtnSaveClicked(View view) {
-        // TODO: Make it dynamic to work with edit as well
         String title = ietExpenseTitle.getText().toString();
         String amountString = ietExpenseAmount.getText().toString();
         int amount = Integer.parseInt(amountString);

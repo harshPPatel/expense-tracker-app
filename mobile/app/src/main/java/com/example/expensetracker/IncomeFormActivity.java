@@ -116,7 +116,6 @@ public class IncomeFormActivity extends AppCompatActivity {
 
 
     public void onBtnSaveClicked(View view) {
-        // TODO: Make it dynamic to work with edit as well
         String title = ietIncomeTitle.getText().toString();
         String amountString = ietIncomeAmount.getText().toString();
         int amount = Integer.parseInt(amountString);

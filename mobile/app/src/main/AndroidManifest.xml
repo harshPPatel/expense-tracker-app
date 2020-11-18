@@ -11,9 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ExpenseFormActivity"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
+        <activity android:name=".ExpenseFormActivity" />
         <activity android:name=".ExpenseActivity" />
-        <activity android:name=".IncomeFormActivity"></activity>
+        <activity android:name=".IncomeFormActivity" />
         <activity android:name=".IncomeActivity" />
         <activity android:name=".SignUpActivity" />
         <activity

@@ -95,6 +95,11 @@ public class UserDashboardActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preference_key), Context.MODE_PRIVATE);
     }
 
+    public void onActionSettingsClicked(MenuItem item) {
+        Intent intent = new Intent(UserDashboardActivity.this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
     public void onActionLogoutClicked(MenuItem item) {
         String token = sharedPreferences.getString("token", "");
         if (!token.isEmpty()) {
@@ -102,7 +107,6 @@ public class UserDashboardActivity extends AppCompatActivity {
                 @Override
                 public void onRequestFailed(JSONObject jsonError) {
                     try {
-                        // EXTRA TODO: Custom Toast with error theme
                         Toast.makeText(getApplication(), "ERROR: " + jsonError.getString("message"), Toast.LENGTH_LONG).show();
                     } catch (JSONException e) {
                         e.printStackTrace();

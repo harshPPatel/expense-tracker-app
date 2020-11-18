@@ -1,0 +1,25 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="Expenses">
+
+        <ListPreference
+            app:defaultValue="$"
+            app:entries="@array/currency_entries"
+            app:entryValues="@array/currency_values"
+            app:key="currency"
+            app:title="Your Currency"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Other Settings">
+
+        <SwitchPreferenceCompat
+            android:id="@+id/dark_mode"
+            app:key="MODE"
+            app:title="Dark Mode" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

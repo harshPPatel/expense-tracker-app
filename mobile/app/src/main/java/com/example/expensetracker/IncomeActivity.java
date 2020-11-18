@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.example.expensetracker.model.Model;
 import com.example.expensetracker.model.api.AbstractListener;
@@ -62,8 +63,9 @@ public class IncomeActivity extends AppCompatActivity {
         sharedPreferences = getApplication().getSharedPreferences(getString(R.string.shared_preference_key), Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
 
-        // TODO: update currency icon dynamically
-        txtIncomeAmount.setText("$ " + df2.format(intent.getDoubleExtra("amount", 0)));
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        String currency = sp.getString("currency", "$");
+        txtIncomeAmount.setText(currency + " " + df2.format(intent.getDoubleExtra("amount", 0)));
     }
 
     public void onBtnIncomeDeleteClicked(View view) {

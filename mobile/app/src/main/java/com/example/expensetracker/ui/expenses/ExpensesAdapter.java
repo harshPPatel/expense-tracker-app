@@ -1,6 +1,7 @@
 package com.example.expensetracker.ui.expenses;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.model.ExpenseResponse;
@@ -41,8 +43,9 @@ public class ExpensesAdapter extends ArrayAdapter<ExpenseResponse> {
             TextView txtAmount = convertView.findViewById(R.id.txtIncomeAmount);
             txtTitle.setText(expense.getTitle());
             txtDate.setText(expense.getDate().toString());
-            // TODO: Update it to use dynamic currency symbol
-            txtAmount.setText("$ " + df2.format(expense.getAmount()));
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+            String currency = sp.getString("currency", "$");
+            txtAmount.setText(currency + " " + df2.format(expense.getAmount()));
         }
 
         return convertView;

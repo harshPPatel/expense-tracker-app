@@ -1,0 +1,18 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="currency_entries">
+        <item>$ (Dollar - Default)</item>
+        <item>€ (Euros)</item>
+        <item>₹ (Rupees)</item>
+        <item>£ (Pounds)</item>
+        <item>¥ (Yen)</item>
+    </string-array>
+
+    <string-array name="currency_values">
+        <item>$</item>
+        <item>€</item>
+        <item>₹</item>
+        <item>£</item>
+        <item>¥</item>
+    </string-array>
+</resources>

@@ -11,8 +11,11 @@ import com.example.expensetracker.model.api.AuthAPIListener;
 import com.example.expensetracker.model.api.AuthAPI;
 import com.example.expensetracker.model.api.IExpenseAPI;
 import com.example.expensetracker.model.api.IIncomeAPI;
+import com.example.expensetracker.model.api.ISettingsAPI;
 import com.example.expensetracker.model.api.IncomeAPI;
 import com.example.expensetracker.model.api.IncomeAPIListener;
+import com.example.expensetracker.model.api.SettingsAPI;
+import com.example.expensetracker.model.api.SettingsAPIListener;
 
 public class Model {
     private static Model model = null;
@@ -20,6 +23,7 @@ public class Model {
     private IAuthAPI IAuthApi;
     private IExpenseAPI iExpenseAPI;
     private IIncomeAPI iIncomeAPI;
+    private ISettingsAPI iSettingsAPI;
 
     private Model(Application app) {
         application = app;
@@ -27,6 +31,7 @@ public class Model {
         IAuthApi = new AuthAPI(app, requestQueue);
         iExpenseAPI = new ExpenseAPI(app, requestQueue);
         iIncomeAPI = new IncomeAPI(app, requestQueue);
+        iSettingsAPI = new SettingsAPI(app, requestQueue);
     }
 
     public Application getApplication() {
@@ -88,4 +93,7 @@ public class Model {
         iIncomeAPI.deleteIncome(token, id, incomeAPIListener);
     }
 
+    public void updateCurrency(String token, String currency, SettingsAPIListener settingsAPIListener) {
+        iSettingsAPI.updateCurrency(token, currency, settingsAPIListener);
+    }
 }

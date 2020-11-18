@@ -76,7 +76,6 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onRequestFailed(JSONObject jsonError) {
                 try {
-                    // EXTRA TODO: Custom Toast with error theme
                     Toast.makeText(getApplication(), "ERROR: " + jsonError.getString("message"), Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();

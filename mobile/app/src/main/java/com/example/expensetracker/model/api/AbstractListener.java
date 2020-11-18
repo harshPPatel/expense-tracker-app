@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class AbstractListener implements AuthAPIListener, ExpenseAPIListener, IncomeAPIListener {
+public class AbstractListener implements AuthAPIListener, ExpenseAPIListener, IncomeAPIListener, SettingsAPIListener {
     @Override
     public void onLogin(AuthResponse authResponse) { }
 
@@ -53,6 +53,11 @@ public class AbstractListener implements AuthAPIListener, ExpenseAPIListener, In
 
     @Override
     public void onIncomeDeleted(String id) {
+
+    }
+
+    @Override
+    public void onCurrencyUpdated(String currency) {
 
     }
 }
