@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         ietxtUsername.addTextChangedListener(new UserNameValidator());
         ietxtPassword.addTextChangedListener(new PasswordValidator());
 
+        // TODO: Implement Dark Mode!
+
         // fetching token from sharedPreference
         String token = sharedPreferences.getString("token", "");
         // Validating the token if it already exists in the shared preference and navigating

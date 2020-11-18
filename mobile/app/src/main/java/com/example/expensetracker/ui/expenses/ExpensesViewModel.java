@@ -41,19 +41,23 @@ public class ExpensesViewModel extends AndroidViewModel {
         String token = sharedPreferences.getString("token", "");
 
         if (!token.isEmpty()) {
-            model.fetchAllExpenses(token, new AbstractListener() {
-                @Override
-                public void onFetchAllExpenses(ArrayList<ExpenseResponse> expensesList) {
-                    expenses.setValue(expensesList);
-                    Toast.makeText(application, "Fetched All Expenses Successfully!", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onRequestFailed(JSONObject jsonError) {
-                    Toast.makeText(application, "ERROR while fetching expenses :(", Toast.LENGTH_SHORT).show();
-                }
-            });
+            fetchExpenses(token);
         }
+    }
+
+    private void fetchExpenses(String token) {
+        model.fetchAllExpenses(token, new AbstractListener() {
+            @Override
+            public void onFetchAllExpenses(ArrayList<ExpenseResponse> expensesList) {
+                expenses.setValue(expensesList);
+                Toast.makeText(getApplication(), "Fetched All Expenses Successfully!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRequestFailed(JSONObject jsonError) {
+                Toast.makeText(getApplication(), "ERROR while fetching expenses :(", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public LiveData<ArrayList<ExpenseResponse>> getExpenses() {
@@ -74,5 +78,11 @@ public class ExpensesViewModel extends AndroidViewModel {
         }
         expenses.setValue(expenseResponses);
         return expenses;
+    }
+
+    public void addExpense(ExpenseResponse expense) {
+        ArrayList<ExpenseResponse> tempExpenses = expenses.getValue();
+        tempExpenses.add(expense);
+        expenses.setValue(tempExpenses);
     }
 }

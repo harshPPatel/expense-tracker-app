@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
 
+import com.example.expensetracker.model.ExpenseResponse;
 import com.example.expensetracker.model.Model;
 import com.example.expensetracker.model.api.AbstractListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -26,11 +28,43 @@ import androidx.appcompat.widget.Toolbar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class UserDashboardActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private SharedPreferences sharedPreferences;
     private Model model;
+    private final int LAUNCH_EXPENSE_ACTIVITY = 1;
+    private FragmentRefreshListener fragmentRefreshListener;
+
+    public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener) {
+        this.fragmentRefreshListener = fragmentRefreshListener;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LAUNCH_EXPENSE_ACTIVITY) {
+            if (resultCode == RESULT_OK) {
+                if(fragmentRefreshListener!=null){
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("_id", data.getStringExtra("id"));
+                        object.put("title", data.getStringExtra("title"));
+                        object.put("amount", data.getDoubleExtra("amount", 0));
+                        object.put("date", data.getStringExtra("date"));
+                        ExpenseResponse expenseResponse = ExpenseResponse.getExpenseResponse(object);
+                        fragmentRefreshListener.onRefresh(expenseResponse);
+                    } catch (ParseException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +92,8 @@ public class UserDashboardActivity extends AppCompatActivity {
                         // By default, opens new Expense screen
                         Snackbar.make(view, "Fab click from Expenses", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
+                        Intent intent = new Intent(UserDashboardActivity.this, ExpenseFormActivity.class);
+                        startActivityForResult(intent, LAUNCH_EXPENSE_ACTIVITY);
                 }
 
             }
@@ -126,5 +162,9 @@ public class UserDashboardActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public interface FragmentRefreshListener{
+        void onRefresh(Object object);
     }
 }

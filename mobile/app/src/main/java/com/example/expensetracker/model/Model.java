@@ -55,6 +55,9 @@ public class Model {
         iExpenseAPI.fetchExpenses(token, expenseAPIListener);
     }
 
+    public void createExpense(String token, String title, int amount, String date, ExpenseAPIListener expenseAPIListener) {
+        iExpenseAPI.createExpense(token, title, amount, date, expenseAPIListener);
+    }
     public void deleteExpense(String token, String id, ExpenseAPIListener expenseAPIListener) {
         iExpenseAPI.deleteExpense(token, id, expenseAPIListener);
     }

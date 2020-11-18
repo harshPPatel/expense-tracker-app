@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.expensetracker.ExpenseActivity;
 import com.example.expensetracker.R;
+import com.example.expensetracker.UserDashboardActivity;
 import com.example.expensetracker.model.ExpenseResponse;
 
 import java.util.ArrayList;
@@ -52,6 +53,17 @@ public class ExpensesFragment extends Fragment {
                 });
             }
         });
+
+        ((UserDashboardActivity)getActivity()).setFragmentRefreshListener(new UserDashboardActivity.FragmentRefreshListener() {
+            @Override
+            public void onRefresh(Object o) {
+                if (o instanceof ExpenseResponse) {
+                    expensesViewModel.addExpense((ExpenseResponse) o);
+                }
+            }
+        });
+
+
         return root;
     }
 

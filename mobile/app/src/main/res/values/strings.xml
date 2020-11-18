@@ -25,4 +25,5 @@
     <string name="menu_expenses">Expenses</string>
     <string name="menu_incomes">Incomes</string>
     <string name="menu_statements">Statements</string>
+    <string name="add_new_expense_title">Add New Expense</string>
 </resources>

@@ -27,5 +27,7 @@ public class AbstractListener implements AuthAPIListener, ExpenseAPIListener {
     public void onFetchAllExpenses(ArrayList<ExpenseResponse> expenses) { }
 
     @Override
+    public void onExpenseCreated(ExpenseResponse responseExpense) { }
+    @Override
     public void onExpenseDeleted(String id) { }
 }
