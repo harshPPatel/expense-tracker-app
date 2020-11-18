@@ -1,4 +1,4 @@
-package com.example.expensetracker.ui.expenses;
+package com.example.expensetracker.ui.incomes;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,16 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.model.ExpenseResponse;
+import com.example.expensetracker.model.IncomeResponse;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ExpensesAdapter extends ArrayAdapter<ExpenseResponse> {
+public class IncomesAdapter extends ArrayAdapter<IncomeResponse> {
     int resourceId;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
 
-    public ExpensesAdapter(@NonNull Context context, int resource, @NonNull ArrayList<ExpenseResponse> objects) {
+    public IncomesAdapter(@NonNull Context context, int resource, @NonNull ArrayList<IncomeResponse> objects) {
         super(context, resource, objects);
         resourceId = resource;
     }
@@ -28,21 +28,21 @@ public class ExpensesAdapter extends ArrayAdapter<ExpenseResponse> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ExpenseResponse expense = getItem(position);
+        IncomeResponse income = getItem(position);
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_item_layout, null);
         }
 
-        if (expense != null) {
+        if (income != null) {
             TextView txtTitle = convertView.findViewById(R.id.txtExpenseTitle);
             TextView txtDate = convertView.findViewById(R.id.txtIncomeDate);
             TextView txtAmount = convertView.findViewById(R.id.txtIncomeAmount);
-            txtTitle.setText(expense.getTitle());
-            txtDate.setText(expense.getDate().toString());
+            txtTitle.setText(income.getTitle());
+            txtDate.setText(income.getDate().toString());
             // TODO: Update it to use dynamic currency symbol
-            txtAmount.setText("$ " + df2.format(expense.getAmount()));
+            txtAmount.setText("$ " + df2.format(income.getAmount()));
         }
 
         return convertView;

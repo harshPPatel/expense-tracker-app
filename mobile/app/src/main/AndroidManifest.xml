@@ -13,6 +13,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ExpenseFormActivity"></activity>
         <activity android:name=".ExpenseActivity" />
+        <activity android:name=".IncomeFormActivity"></activity>
+        <activity android:name=".IncomeActivity" />
         <activity android:name=".SignUpActivity" />
         <activity
             android:name=".UserDashboardActivity"

@@ -10,46 +10,43 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.expensetracker.model.ExpenseResponse;
+import com.example.expensetracker.model.IncomeResponse;
+import com.example.expensetracker.model.IncomeResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
 
-public class ExpenseAPI implements IExpenseAPI {
+public class IncomeAPI implements IIncomeAPI {
     public static final String BASE_URL = "https://expense-tarcker-app-api.now.sh/api/v1";
 
     private RequestQueue requestQueue;
     private Application application;
 
-    public ExpenseAPI(Application app, RequestQueue requestQueue) {
+    public IncomeAPI(Application app, RequestQueue requestQueue) {
         this.requestQueue = requestQueue;
         application = app;
     }
 
-    public void fetchExpenses(final String token, final ExpenseAPIListener expenseAPIListener) {
-        String uri = BASE_URL + "/expense/";
+    public void fetchIncomes(final String token, final IncomeAPIListener incomeAPIListener) {
+        String uri = BASE_URL + "/income/";
 
         Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray jsonExpenses = response.getJSONArray("expenses");
-                    ArrayList<ExpenseResponse> expenses = new ArrayList<>(jsonExpenses.length());
-                    for (int i = 0; i < jsonExpenses.length(); i++) {
-                        ExpenseResponse expense = ExpenseResponse.getExpenseResponse(jsonExpenses.getJSONObject(i));
-                        expenses.add(expense);
+                    JSONArray jsonIncomes = response.getJSONArray("incomes");
+                    ArrayList<IncomeResponse> incomes = new ArrayList<>(jsonIncomes.length());
+                    for (int i = 0; i < jsonIncomes.length(); i++) {
+                        IncomeResponse income = IncomeResponse.getIncomeResponse(jsonIncomes.getJSONObject(i));
+                        incomes.add(income);
                     }
-                    expenseAPIListener.onFetchAllExpenses(expenses);
+                    incomeAPIListener.onFetchAllIncomes(incomes);
                 } catch (JSONException | ParseException e) {
                     Toast.makeText(application, "JSON Parse Exception", Toast.LENGTH_LONG).show();
                 }
@@ -64,7 +61,7 @@ public class ExpenseAPI implements IExpenseAPI {
                     String responseError = new String(networkResponse.data);
                     try {
                         JSONObject jsonError = new JSONObject(responseError);
-                        expenseAPIListener.onRequestFailed(jsonError);
+                        incomeAPIListener.onRequestFailed(jsonError);
                     } catch (JSONException e) {
                         Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
                     }
@@ -88,8 +85,8 @@ public class ExpenseAPI implements IExpenseAPI {
         requestQueue.add(request);
     }
 
-    public void createExpense(final String token, String title, int amount, String date, final ExpenseAPIListener expenseAPIListener) {
-        String uri = BASE_URL + "/expense/create";
+    public void createIncome(final String token, String title, int amount, String date, final IncomeAPIListener incomeAPIListener) {
+        String uri = BASE_URL + "/income/create";
         JSONObject body = new JSONObject();
         try {
             body.put("title", title);
@@ -102,9 +99,9 @@ public class ExpenseAPI implements IExpenseAPI {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONObject res = response.getJSONObject("expense");
-                    ExpenseResponse expenseResponse = ExpenseResponse.getExpenseResponse(res);
-                    expenseAPIListener.onExpenseCreated(expenseResponse);
+                    JSONObject res = response.getJSONObject("income");
+                    IncomeResponse incomeResponse = IncomeResponse.getIncomeResponse(res);
+                    incomeAPIListener.onIncomeCreated(incomeResponse);
                 } catch (JSONException | ParseException e) {
                     Toast.makeText(application, "JSON Parse Exception", Toast.LENGTH_LONG).show();
                 }
@@ -119,7 +116,7 @@ public class ExpenseAPI implements IExpenseAPI {
                     String responseError = new String(networkResponse.data);
                     try {
                         JSONObject jsonError = new JSONObject(responseError);
-                        expenseAPIListener.onRequestFailed(jsonError);
+                        incomeAPIListener.onRequestFailed(jsonError);
                     } catch (JSONException e) {
                         Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
                     }
@@ -143,8 +140,8 @@ public class ExpenseAPI implements IExpenseAPI {
         requestQueue.add(request);
     }
 
-    public void updateExpense(final String token, String id, String title, int amount, String date, final ExpenseAPIListener expenseAPIListener) {
-        String uri = BASE_URL + "/expense/update";
+    public void updateIncome(final String token, String id, String title, int amount, String date, final IncomeAPIListener incomeAPIListener) {
+        String uri = BASE_URL + "/income/update";
         JSONObject body = new JSONObject();
         try {
             body.put("_id", id);
@@ -158,9 +155,9 @@ public class ExpenseAPI implements IExpenseAPI {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONObject res = response.getJSONObject("updatedExpense");
-                    ExpenseResponse expenseResponse = ExpenseResponse.getExpenseResponse(res);
-                    expenseAPIListener.onExpenseUpdated(expenseResponse);
+                    JSONObject res = response.getJSONObject("updatedIncome");
+                    IncomeResponse incomeResponse = IncomeResponse.getIncomeResponse(res);
+                    incomeAPIListener.onIncomeUpdated(incomeResponse);
                 } catch (JSONException | ParseException e) {
                     Toast.makeText(application, "JSON Parse Exception", Toast.LENGTH_LONG).show();
                 }
@@ -175,7 +172,7 @@ public class ExpenseAPI implements IExpenseAPI {
                     String responseError = new String(networkResponse.data);
                     try {
                         JSONObject jsonError = new JSONObject(responseError);
-                        expenseAPIListener.onRequestFailed(jsonError);
+                        incomeAPIListener.onRequestFailed(jsonError);
                     } catch (JSONException e) {
                         Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
                     }
@@ -199,15 +196,15 @@ public class ExpenseAPI implements IExpenseAPI {
         requestQueue.add(request);
     }
 
-    public void deleteExpense(final String token, String id, final ExpenseAPIListener expenseAPIListener) {
-        String uri = BASE_URL + "/expense/" + id;
+    public void deleteIncome(final String token, String id, final IncomeAPIListener incomeAPIListener) {
+        String uri = BASE_URL + "/income/" + id;
 
         Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    String id = response.getString("removedExpenseId");
-                    expenseAPIListener.onExpenseDeleted(id);
+                    String id = response.getString("removedIncomeId");
+                    incomeAPIListener.onIncomeDeleted(id);
                 } catch (JSONException e) {
                     Toast.makeText(application, "JSON Parse Exception", Toast.LENGTH_LONG).show();
                 }
@@ -222,7 +219,7 @@ public class ExpenseAPI implements IExpenseAPI {
                     String responseError = new String(networkResponse.data);
                     try {
                         JSONObject jsonError = new JSONObject(responseError);
-                        expenseAPIListener.onRequestFailed(jsonError);
+                        incomeAPIListener.onRequestFailed(jsonError);
                     } catch (JSONException e) {
                         Toast.makeText(application, "JSON Exception", Toast.LENGTH_LONG).show();
                     }

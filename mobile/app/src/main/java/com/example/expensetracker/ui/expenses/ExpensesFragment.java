@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -21,6 +19,7 @@ import com.example.expensetracker.R;
 import com.example.expensetracker.UserDashboardActivity;
 import com.example.expensetracker.model.ExpenseResponse;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ExpensesFragment extends Fragment {
@@ -38,7 +37,7 @@ public class ExpensesFragment extends Fragment {
         expensesViewModel.getExpenses().observe(getViewLifecycleOwner(), new Observer<ArrayList<ExpenseResponse>>() {
             @Override
             public void onChanged(final ArrayList<ExpenseResponse> expenseResponses) {
-                ExpensesAdapter expensesAdapter = new ExpensesAdapter(getContext(), R.layout.expnese_layout, expenseResponses);
+                ExpensesAdapter expensesAdapter = new ExpensesAdapter(getContext(), R.layout.list_item_layout, expenseResponses);
                 lsvExpenses.setAdapter(expensesAdapter);
                 lsvExpenses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -47,19 +46,19 @@ public class ExpensesFragment extends Fragment {
                         intent.putExtra("id", expenseResponses.get(i).getId());
                         intent.putExtra("title", expenseResponses.get(i).getTitle());
                         intent.putExtra("amount", expenseResponses.get(i).getAmount());
-                        intent.putExtra("date", expenseResponses.get(i).getDate().toString());
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                        intent.putExtra("date", format.format(expenseResponses.get(i).getDate()));
                         startActivityForResult(intent, LAUNCH_EXPENSE_ACTIVITY);
                     }
                 });
             }
         });
 
+        // Used to detect when expense edited or created so that we can refresh expenses
         ((UserDashboardActivity)getActivity()).setFragmentRefreshListener(new UserDashboardActivity.FragmentRefreshListener() {
             @Override
-            public void onRefresh(Object o) {
-                if (o instanceof ExpenseResponse) {
-                    expensesViewModel.addExpense((ExpenseResponse) o);
-                }
+            public void onRefresh() {
+                expensesViewModel.refreshExpenses();
             }
         });
 
@@ -70,8 +69,7 @@ public class ExpensesFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            String id = data.getStringExtra("id");
-            expensesViewModel.removeExpense(id);
+            expensesViewModel.refreshExpenses();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

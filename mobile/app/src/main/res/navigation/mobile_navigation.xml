@@ -16,10 +16,4 @@
         android:name="com.example.expensetracker.ui.incomes.IncomesFragment"
         android:label="@string/menu_incomes"
         tools:layout="@layout/fragment_incomes" />
-
-    <fragment
-        android:id="@+id/nav_statements"
-        android:name="com.example.expensetracker.ui.statements.StatementsFragment"
-        android:label="@string/menu_statements"
-        tools:layout="@layout/fragment_statements" />
 </navigation>

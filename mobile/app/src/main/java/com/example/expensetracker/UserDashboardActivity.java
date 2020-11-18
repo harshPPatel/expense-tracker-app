@@ -29,15 +29,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class UserDashboardActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private SharedPreferences sharedPreferences;
     private Model model;
-    private final int LAUNCH_EXPENSE_ACTIVITY = 1;
+    private final int LAUNCH_EXPENSE_ACTIVITY = 1, LAUNCH_INCOME_ACTIVITY = 2;
     private FragmentRefreshListener fragmentRefreshListener;
 
     public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener) {
@@ -47,21 +45,9 @@ public class UserDashboardActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LAUNCH_EXPENSE_ACTIVITY) {
-            if (resultCode == RESULT_OK) {
-                if(fragmentRefreshListener!=null){
-                    try {
-                        JSONObject object = new JSONObject();
-                        object.put("_id", data.getStringExtra("id"));
-                        object.put("title", data.getStringExtra("title"));
-                        object.put("amount", data.getDoubleExtra("amount", 0));
-                        object.put("date", data.getStringExtra("date"));
-                        ExpenseResponse expenseResponse = ExpenseResponse.getExpenseResponse(object);
-                        fragmentRefreshListener.onRefresh(expenseResponse);
-                    } catch (ParseException | JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
+        if (resultCode == RESULT_OK) {
+            if(fragmentRefreshListener != null){
+                fragmentRefreshListener.onRefresh();
             }
         }
     }
@@ -76,24 +62,17 @@ public class UserDashboardActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // STRETCH TODO: Make it work for adding new item!
                 NavController navController = Navigation.findNavController(UserDashboardActivity.this, R.id.nav_host_fragment);
                 int currentId = navController.getCurrentDestination().getId();
                 switch (currentId) {
                     case R.id.nav_incomes:
-                        Snackbar.make(view, "Fab click from Incomes", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                        break;
-                    case R.id.nav_statements:
-                        Snackbar.make(view, "Fab click from Statements", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+                        Intent incomeIntent = new Intent(UserDashboardActivity.this, IncomeFormActivity.class);
+                        startActivityForResult(incomeIntent, LAUNCH_INCOME_ACTIVITY);
                         break;
                     default:
                         // By default, opens new Expense screen
-                        Snackbar.make(view, "Fab click from Expenses", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                        Intent intent = new Intent(UserDashboardActivity.this, ExpenseFormActivity.class);
-                        startActivityForResult(intent, LAUNCH_EXPENSE_ACTIVITY);
+                        Intent expenseIntent = new Intent(UserDashboardActivity.this, ExpenseFormActivity.class);
+                        startActivityForResult(expenseIntent, LAUNCH_EXPENSE_ACTIVITY);
                 }
 
             }
@@ -106,7 +85,7 @@ public class UserDashboardActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_expenses, R.id.nav_incomes, R.id.nav_statements)
+                R.id.nav_expenses, R.id.nav_incomes)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -165,6 +144,6 @@ public class UserDashboardActivity extends AppCompatActivity {
     }
 
     public interface FragmentRefreshListener{
-        void onRefresh(Object object);
+        void onRefresh();
     }
 }

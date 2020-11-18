@@ -10,8 +10,5 @@
         <item
             android:id="@+id/nav_incomes"
             android:title="@string/menu_incomes" />
-        <item
-            android:id="@+id/nav_statements"
-            android:title="@string/menu_statements" />
     </group>
 </menu>

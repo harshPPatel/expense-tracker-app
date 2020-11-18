@@ -1,8 +1,5 @@
 package com.example.expensetracker;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.expensetracker.model.Model;
 import com.example.expensetracker.model.api.AbstractListener;
@@ -22,9 +22,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ExpenseActivity extends AppCompatActivity {
+public class IncomeActivity extends AppCompatActivity {
 
-    TextView txtExpenseTitle, txtExpenseDate, txtExpenseAmount;
+    TextView txtIncomeTitle, txtIncomeDate, txtIncomeAmount;
     String id;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private Model model;
@@ -35,17 +35,17 @@ public class ExpenseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_expense);
+        setContentView(R.layout.activity_income);
 
         Intent intent = getIntent();
 
-        txtExpenseTitle = findViewById(R.id.txtExpenseTitle);
-        txtExpenseDate = findViewById(R.id.txtIncomeDate);
-        txtExpenseAmount = findViewById(R.id.txtIncomeAmount);
+        txtIncomeTitle = findViewById(R.id.txtIncomeTitle);
+        txtIncomeDate = findViewById(R.id.txtIncomeDate);
+        txtIncomeAmount = findViewById(R.id.txtIncomeAmount);
 
         id = intent.getStringExtra("id");
 
-        txtExpenseTitle.setText(intent.getStringExtra("title"));
+        txtIncomeTitle.setText(intent.getStringExtra("title"));
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date date = null;
@@ -55,7 +55,7 @@ public class ExpenseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        txtExpenseDate.setText(date.toString());
+        txtIncomeDate.setText(date.toString());
 
         model = Model.getInstance(getApplication());
 
@@ -63,22 +63,22 @@ public class ExpenseActivity extends AppCompatActivity {
         token = sharedPreferences.getString("token", "");
 
         // TODO: update currency icon dynamically
-        txtExpenseAmount.setText("$ " + df2.format(intent.getDoubleExtra("amount", 0)));
+        txtIncomeAmount.setText("$ " + df2.format(intent.getDoubleExtra("amount", 0)));
     }
 
-    public void onBtnExpenseDeleteClicked(View view) {
+    public void onBtnIncomeDeleteClicked(View view) {
         sharedPreferences = getApplication().getSharedPreferences(getString(R.string.shared_preference_key), Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         if (!token.isEmpty()) {
-            model.deleteExpense(token, id, new AbstractListener() {
+            model.deleteIncome(token, id, new AbstractListener() {
                 @Override
                 public void onRequestFailed(JSONObject jsonError) {
-                    Toast.makeText(getApplicationContext(), "ERROR while deleting expense :(", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "ERROR while deleting income :(", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
-                public void onExpenseDeleted(String id) {
-                    Toast.makeText(getApplicationContext(), "Deleted Expense Successfully!", Toast.LENGTH_SHORT).show();
+                public void onIncomeDeleted(String id) {
+                    Toast.makeText(getApplicationContext(), "Deleted Income Successfully!", Toast.LENGTH_SHORT).show();
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("id", id);
                     setResult(Activity.RESULT_OK, returnIntent);
@@ -88,8 +88,8 @@ public class ExpenseActivity extends AppCompatActivity {
         }
     }
 
-    public void onBtnExpensesUpdateClicked(View view) {
-        Intent intent = new Intent(ExpenseActivity.this, ExpenseFormActivity.class);
+    public void onBtnIncomesUpdateClicked(View view) {
+        Intent intent = new Intent(IncomeActivity.this, IncomeFormActivity.class);
         Intent parentIntent = getIntent();
         intent.putExtra("isEdit", true);
         intent.putExtra("id", parentIntent.getStringExtra("id"));

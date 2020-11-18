@@ -10,18 +10,23 @@ import com.example.expensetracker.model.api.IAuthAPI;
 import com.example.expensetracker.model.api.AuthAPIListener;
 import com.example.expensetracker.model.api.AuthAPI;
 import com.example.expensetracker.model.api.IExpenseAPI;
+import com.example.expensetracker.model.api.IIncomeAPI;
+import com.example.expensetracker.model.api.IncomeAPI;
+import com.example.expensetracker.model.api.IncomeAPIListener;
 
 public class Model {
     private static Model model = null;
     private Application application;
     private IAuthAPI IAuthApi;
     private IExpenseAPI iExpenseAPI;
+    private IIncomeAPI iIncomeAPI;
 
     private Model(Application app) {
         application = app;
         RequestQueue requestQueue = Volley.newRequestQueue(app);
         IAuthApi = new AuthAPI(app, requestQueue);
         iExpenseAPI = new ExpenseAPI(app, requestQueue);
+        iIncomeAPI = new IncomeAPI(app, requestQueue);
     }
 
     public Application getApplication() {
@@ -58,8 +63,29 @@ public class Model {
     public void createExpense(String token, String title, int amount, String date, ExpenseAPIListener expenseAPIListener) {
         iExpenseAPI.createExpense(token, title, amount, date, expenseAPIListener);
     }
+
+    public void updateExpense(String token, String id, String title, int amount, String date, ExpenseAPIListener expenseAPIListener) {
+        iExpenseAPI.updateExpense(token, id, title, amount, date, expenseAPIListener);
+    }
+
     public void deleteExpense(String token, String id, ExpenseAPIListener expenseAPIListener) {
         iExpenseAPI.deleteExpense(token, id, expenseAPIListener);
+    }
+
+    public void fetchAllIncomes(String token, IncomeAPIListener incomeAPIListener) {
+        iIncomeAPI.fetchIncomes(token, incomeAPIListener);
+    }
+
+    public void createIncome(String token, String title, int amount, String date, IncomeAPIListener incomeAPIListener) {
+        iIncomeAPI.createIncome(token, title, amount, date, incomeAPIListener);
+    }
+
+    public void updateIncome(String token, String id, String title, int amount, String date, IncomeAPIListener incomeAPIListener) {
+        iIncomeAPI.updateIncome(token, id, title, amount, date, incomeAPIListener);
+    }
+
+    public void deleteIncome(String token, String id, IncomeAPIListener incomeAPIListener) {
+        iIncomeAPI.deleteIncome(token, id, incomeAPIListener);
     }
 
 }

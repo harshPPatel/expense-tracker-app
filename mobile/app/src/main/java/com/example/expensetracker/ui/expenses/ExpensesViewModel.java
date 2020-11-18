@@ -28,24 +28,21 @@ public class ExpensesViewModel extends AndroidViewModel {
     private MutableLiveData<ArrayList<ExpenseResponse>> expenses;
     private Model model;
     private SharedPreferences sharedPreferences;
+    private String token;
 
     public ExpensesViewModel(@NonNull final Application application) {
         super(application);
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
 
         model = Model.getInstance(getApplication());
         expenses = new MutableLiveData<>();
         sharedPreferences = application.getSharedPreferences(application.getString(R.string.shared_preference_key), Context.MODE_PRIVATE);
 
-        String token = sharedPreferences.getString("token", "");
-
-        if (!token.isEmpty()) {
-            fetchExpenses(token);
-        }
+        token = sharedPreferences.getString("token", "");
+        fetchExpenses();
     }
 
-    private void fetchExpenses(String token) {
+    private void fetchExpenses() {
+        if (token.isEmpty()) return;
         model.fetchAllExpenses(token, new AbstractListener() {
             @Override
             public void onFetchAllExpenses(ArrayList<ExpenseResponse> expensesList) {
@@ -64,25 +61,9 @@ public class ExpensesViewModel extends AndroidViewModel {
         return expenses;
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
-
-    public LiveData<ArrayList<ExpenseResponse>> removeExpense(final String id) {
-        ArrayList<ExpenseResponse> expenseResponses = expenses.getValue();
-        for (ExpenseResponse response : expenseResponses) {
-            if (response.getId().equals(id)) {
-                expenseResponses.remove(response);
-                break;
-            }
+    public void refreshExpenses() {
+        if (!token.isEmpty()) {
+            fetchExpenses();
         }
-        expenses.setValue(expenseResponses);
-        return expenses;
-    }
-
-    public void addExpense(ExpenseResponse expense) {
-        ArrayList<ExpenseResponse> tempExpenses = expenses.getValue();
-        tempExpenses.add(expense);
-        expenses.setValue(tempExpenses);
     }
 }

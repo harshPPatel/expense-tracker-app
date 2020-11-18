@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
         ietxtPassword.addTextChangedListener(new PasswordValidator());
 
         // TODO: Implement Dark Mode!
+        // TODO: Implement Settings
+        // TODO: Refactor code and add comments! IMPORTANT!
+        // TODO: remove unnecessary imports
 
         // fetching token from sharedPreference
         String token = sharedPreferences.getString("token", "");
